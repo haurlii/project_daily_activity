@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Daily Activity - Edit Akun</title>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div class="container-fluid">
+
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Manajemen Akun</h1>
+                        <a href="user_profile.html" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
+                            <i class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali ke Profil
+                        </a>
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex justify-content-between">
+                            <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="true">
+                                        <i class="fas fa-user-edit mr-1"></i> Edit Informasi Profile
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-password-tab" data-toggle="pill" href="#pills-password" role="tab" aria-controls="pills-password" aria-selected="false">
+                                        <i class="fas fa-lock mr-1"></i> Ubah Password
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <div class="tab-content" id="pills-tabContent">
+                                
+                                <div class="tab-pane fade show active" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <h5 class="text-primary mb-3">Data Pribadi dan Kontak</h5>
+                                    
+                                    <form>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="inputNama">Nama Lengkap</label>
+                                                    <input type="text" class="form-control" id="inputNama" value="Farhan Pratama Putra" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputJabatan">Jabatan</label>
+                                                    <input type="text" class="form-control" id="inputJabatan" value="IT Support" disabled>
+                                                    <small class="form-text text-muted">Jabatan tidak dapat diubah tanpa persetujuan HRD.</small>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputEmail">Email Kantor</label>
+                                                    <input type="email" class="form-control" id="inputEmail" value="farhan.putra@dacgroup.co.id" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group text-center">
+                                                    <label>Foto Profil</label>
+                                                    <div class="mb-3">
+                                                        <img class="img-profile rounded-circle border p-1" src="img/undraw_profile.svg" style="max-width: 100px;">
+                                                    </div>
+                                                    <div class="custom-file" style="max-width: 250px; margin: auto;">
+                                                        <input type="file" class="custom-file-input" id="customFile">
+                                                        <label class="custom-file-label" for="customFile">Pilih Gambar</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="inputKontak">Nomor Kontak (HP)</label>
+                                                    <input type="tel" class="form-control" id="inputKontak" value="(+62) 812-3456-7890">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary mt-3"><i class="fas fa-save mr-1"></i> Simpan Perubahan Profile</button>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade" id="pills-password" role="tabpanel" aria-labelledby="pills-password-tab">
+                                    <h5 class="text-warning mb-3">Keamanan Akun</h5>
+                                    <div class="alert alert-warning" role="alert">
+                                        Perhatian! Harap gunakan kombinasi huruf besar, huruf kecil, angka, dan simbol untuk password yang kuat.
+                                    </div>
+                                    <form>
+                                        <div class="form-group col-lg-6 px-0">
+                                            <label for="inputPasswordLama">Password Lama</label>
+                                            <input type="password" class="form-control" id="inputPasswordLama" required>
+                                        </div>
+                                        <div class="form-group col-lg-6 px-0">
+                                            <label for="inputPasswordBaru">Password Baru</label>
+                                            <input type="password" class="form-control" id="inputPasswordBaru" required>
+                                        </div>
+                                        <div class="form-group col-lg-6 px-0">
+                                            <label for="inputKonfirmasi">Konfirmasi Password Baru</label>
+                                            <input type="password" class="form-control" id="inputKonfirmasi" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-danger mt-3"><i class="fas fa-exchange-alt mr-1"></i> Perbarui Password</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            </div>
+        </div>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+</html>
