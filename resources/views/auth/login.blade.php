@@ -120,7 +120,7 @@
         });
     </script>
 
-    <script src="../../script/auth.js"></script>
+    <script src="{{ asset('assets/script/auth.js') }}"></script>
 
 </body>
 
