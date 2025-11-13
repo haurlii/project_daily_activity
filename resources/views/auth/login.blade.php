@@ -86,9 +86,6 @@
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.html">Lupa Kata Sandi?</a>
                                     </div>
-                                    <div class="text-center">
-                                        <a class="small" href="register.html">Buat Akun Baru!</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,5 @@
-const API_URL = "http://localhost/Daily_Activity_DAC_Group/backend/api/";
-const BASE_URL = "http://localhost/Daily_Activity_DAC_Group/pages/";
+const API_URL = "http://localhost:8000/api/";
+const BASE_URL = "http://localhost:8000/";
 
 async function register() {
   const namadepan = document.getElementById("exampleFirstName").value.trim();
@@ -19,7 +19,7 @@ async function register() {
   }
 
   try {
-    const response = await fetch(API_URL + "register.php", {
+    const response = await fetch(API_URL + "register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ namadepan, namabelakang, email, password }),
@@ -38,8 +38,8 @@ async function register() {
   } catch (error) {
     console.error("Error during registration:", error);
     Swal.fire({
-      icon: result.status === "success" ? "success" : "error",
-      title: result.message,
+      icon: "error",
+      title: "Terjadi kesalahan saat registrasi",
       showConfirmButton: false,
       timer: 1500
     });
@@ -50,7 +50,7 @@ async function login() {
   const email = document.getElementById("inputEmail").value;
   const password = document.getElementById("inputPassword").value;
 
-  const response = await fetch(API_URL + "login.php", {
+  const response = await fetch(API_URL + "login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
@@ -66,8 +66,7 @@ async function login() {
     });
 
   if (result.status === "success") {
-    localStorage.setItem("email", email);
-
+    localStorage.setItem("token", result.token);
     window.location.href = BASE_URL + result.redirect;
   }
 }
