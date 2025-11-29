@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Daily Activity - Status Kehadiran Hari Ini (Revisi)</title>
+
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Admin Monitoring<sup></sup></div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item"><a class="nav-link" href="index.html"><i class="fas fa-fw fa-tachometer-alt"></i><span>Dashboard Utama</span></a></li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">Fungsi Admin</div>
+            <li class="nav-item"><a class="nav-link" href="aktivitas_karyawan.html"><i class="fas fa-fw fa-eye"></i><span>Pemantauan Aktivitas Karyawan</span></a></li>
+            <li class="nav-item"><a class="nav-link" href="laporan_kehadiran_kinerja.html"><i class="fas fa-fw fa-chart-line"></i><span>Laporan Kehadiran & Kinerja Karyawan</span></a></li>
+            <li class="nav-item active"><a class="nav-link" href="status_kehadiran_admin.html"><i class="fas fa-fw fa-users"></i><span>Status Kehadiran Admin Hari Ini</span></a></li>
+            <hr class="sidebar-divider d-none d-md-block">
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <div id="content">
+
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3"><i class="fa fa-bars"></i></button>
+                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Cari Karyawan..." aria-label="Search">
+                            <div class="input-group-append"><button class="btn btn-primary" type="button"><i class="fas fa-search fa-sm"></i></button></div>
+                        </div>
+                    </form>
+                    <ul class="navbar-nav ml-auto">
+                        <div class="topbar-divider d-none d-sm-block"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small" style="line-height: 1.2;"><span class="d-block" style="font-weight: 600;">Nama Admin</span><span class="d-block text-gray-500" style="font-size: 0.75rem; margin-top: -0.2rem;">Administrator Utama</span></span>
+                                <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="admin_profile.html"><i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i> Profile </a>
+                                <a class="dropdown-item" href="system_setting.html"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Pengaturan </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="login.html" data-toggle="modal" data-target="#logoutModal"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="container-fluid">
+
+                    <h1 class="h3 mb-2 text-gray-800">Status Kehadiran Hari Ini</h1>
+                    <p class="mb-4">Informasi ringkas status kehadiran per 06 November 2025.</p>
+                    
+                    <div class="row">
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                                TOTAL HADIR (MASUK)</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalHadir">...</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user-check fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-warning shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                JUMLAH TERLAMBAT</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="terlambat">...</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-left-danger shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                                TOTAL TIDAK HADIR</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800" id="tidakHadir">...</div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <i class="fas fa-user-slash fa-2x text-gray-300"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Daftar Kehadiran Detail Karyawan Hari Ini</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="kehadiranHarianTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Nama Karyawan</th>
+                                            <th>Divisi</th>
+                                            <th>Status Absen</th>
+                                            <th>Waktu Absen</th>
+                                            <th>Tindak Lanjut</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Nama Karyawan</th>
+                                            <th>Divisi</th>
+                                            <th>Status Absen</th>
+                                            <th>Waktu Absen</th>
+                                            <th>Tindak Lanjut</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                </div>
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Daily Activity DAC Group Your Website 2025</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        </div>
+    <a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title" id="exampleModalLabel">Siap untuk Keluar?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">Pilih "Logout" di bawah jika Anda siap mengakhiri sesi saat ini.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                    <a class="btn btn-primary" href="login.html">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="js/sb-admin-2.min.js"></script>
+    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+          
+          // Data Dummy untuk Status Kehadiran Harian
+          var kehadiranData = [
+            {
+              "nama": "Ahmad Budi", "divisi": "Teknisi", "waktu_masuk": "08:00",
+              "status": '<span class="badge badge-success">Hadir</span>', "keterangan": "Tepat Waktu",
+              "aksi": '<button class="btn btn-sm btn-info">Cek Aktivitas</button>'
+            },
+            {
+              "nama": "Citra Dewi", "divisi": "Marketing", "waktu_masuk": "08:45",
+              "status": '<span class="badge badge-warning">Terlambat</span>', "keterangan": "Terlambat",
+              "aksi": '<button class="btn btn-sm btn-info">Cek Aktivitas</button>'
+            },
+            {
+              "nama": "Farhan Pratama", "divisi": "IT Support", "waktu_masuk": "07:55",
+              "status": '<span class="badge badge-success">Hadir</span>', "keterangan": "Tepat Waktu",
+              "aksi": '<button class="btn btn-sm btn-info">Cek Aktivitas</button>'
+            },
+            {
+              "nama": "Bambang Susilo", "divisi": "HRD", "waktu_masuk": "-",
+              "status": '<span class="badge badge-danger">Izin</span>', "keterangan": "Izin",
+              "aksi": '<button class="btn btn-sm btn-danger">Tinjau Izin</button>'
+            },
+            {
+              "nama": "Dewi Sartika", "divisi": "Admin", "waktu_masuk": "08:05",
+              "status": '<span class="badge badge-success">Hadir</span>', "keterangan": "Tepat Waktu",
+              "aksi": '<button class="btn btn-sm btn-info">Cek Aktivitas</button>'
+            },
+            {
+              "nama": "Eko Saputra", "divisi": "Teknisi", "waktu_masuk": "08:15",
+              "status": '<span class="badge badge-warning">Terlambat</span>', "keterangan": "Terlambat",
+              "aksi": '<button class="btn btn-sm btn-info">Cek Aktivitas</button>'
+            },
+            {
+              "nama": "Gita Larasati", "divisi": "Finance", "waktu_masuk": "-",
+              "status": '<span class="badge badge-secondary">Cuti</span>', "keterangan": "Cuti",
+              "aksi": '<button class="btn btn-sm btn-secondary" disabled>Cuti</button>'
+            },
+            {
+              "nama": "Hendra Wijaya", "divisi": "Produksi", "waktu_masuk": "07:50",
+              "status": '<span class="badge badge-success">Hadir</span>', "keterangan": "Tepat Waktu",
+              "aksi": '<button class="btn btn-sm btn-info">Cek Aktivitas</button>'
+            }
+          ];
+
+          // 1. Inisialisasi DataTables (Kolom direvisi agar lebih sederhana)
+          $('#kehadiranHarianTable').DataTable({
+            data: kehadiranData, 
+            columns: [
+              { data: 'nama' },
+              { data: 'divisi' },
+              { data: 'status' },
+              { data: 'waktu_masuk' },
+              { data: 'aksi' }
+            ],
+            // Default sort: Terlambat/Izin/Cuti dulu agar Admin bisa segera menindaklanjuti
+            "order": [[ 2, "asc" ]], 
+            "paging": true,
+            "searching": true,
+          });
+
+          // 2. Menghitung dan Mengisi Kartu Summary
+          
+          // Total Hadir (Masuk Tepat Waktu + Terlambat)
+          var totalHadirCount = kehadiranData.filter(item => item.status.includes("Hadir") || item.status.includes("Terlambat")).length;
+          // Terlambat saja
+          var terlambatCount = kehadiranData.filter(item => item.status.includes("Terlambat")).length;
+          // Izin, Cuti, Sakit, atau Tidak Masuk lainnya
+          var tidakHadirCount = kehadiranData.filter(item => item.status.includes("Izin") || item.status.includes("Cuti")).length;
+
+          // Isi elemen HTML dengan hasil perhitungan
+          $('#totalHadir').text(totalHadirCount);
+          $('#terlambat').text(terlambatCount);
+          $('#tidakHadir').text(tidakHadirCount);
+
+        });
+    </script>
+
+</body>
+
+</html>
