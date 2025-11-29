@@ -17,30 +17,32 @@ class ActivityController extends Controller
     {
         $user = Auth::user();
         if ($user->role == 'SuperAdmin') {
-            $dataActivity = Activity::latest()->with(['memberActivity']);
+            $activity = Activity::latest()->with(['memberActivity']);
             return view(
                 'admin.index-activity',
                 [
                     'title' => 'Data Aktivitas',
-                    'activities' => $dataActivity->paginate(7)->withQueryString(),
+                    'activities' => $activity->paginate(7)->withQueryString(),
                 ]
             );
         } elseif ($user->role == 'Leader') {
-            $dataActivity = Activity::latest()->with(['memberActivity']);
+            $activity = Activity::whereHas('memberActivity', function ($query) use ($user) {
+                $query->where('division', $user->division);
+            })->with('memberActivity')->latest()->paginate(7)->withQueryString();
             return view(
                 'leader.index-activity',
                 [
                     'title' => 'Data Aktivitas',
-                    'activities' => $dataActivity->paginate(7)->withQueryString(),
+                    'activities' => $activity,
                 ]
             );
         } else {
-            $dataActivity = Activity::latest();
+            $activity = Activity::where('user_id', $user->id)->with('memberActivity')->latest()->paginate(7)->withQueryString();
             return view(
                 'member.index-activity',
                 [
                     'title' => 'Data Aktivitas',
-                    'activities' => $dataActivity->paginate(7)->withQueryString(),
+                    'activities' => $activity,
                 ]
             );
         }

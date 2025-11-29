@@ -5,15 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ActivityController;
-use App\Http\Controllers\AdminTaskController;
-use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\LeaderTaskController;
-use App\Http\Controllers\LeaderUserController;
-use App\Http\Controllers\MemberTaskController;
-use App\Http\Controllers\AdminActivityController;
-use App\Http\Controllers\LeaderActivityController;
-use App\Http\Controllers\MemberActivityController;
 
 Route::middleware('guest')->group(function () {
     Route::controller(AuthController::class)->group(function () {

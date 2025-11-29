@@ -27,32 +27,32 @@ class TaskController extends Controller
                 ]
             );
         } elseif ($user->role == 'Leader') {
-            $dataTask = Task::latest()->with(['memberTask']);
+            $task = Task::whereHas('memberTask', function ($query) use ($user) {
+                $query->where('division', $user->division);
+            })->with('memberTask')->latest()->paginate(7)->withQueryString();
             return view(
                 'leader.index-task',
                 [
                     'title' => 'Data Tugas',
-                    'tasks' => $dataTask->paginate(7)->withQueryString(),
+                    'tasks' => $task,
                 ]
             );
             return view('leader.index-task', ['title' => 'Data Tugas']);
         } else {
-            $dataTask = Task::latest()->with(['leaderTask']);
+            $task = Task::where('member_id', $user->id)->with('memberTask')->latest()->paginate(7)->withQueryString();
             return view(
                 'member.index-task',
                 [
                     'title' => 'Data Tugas',
-                    'tasks' => $dataTask->paginate(7)->withQueryString(),
+                    'tasks' => $task,
                 ]
             );
-            return view('member.index-task', ['title' => 'Data Tugas']);
         }
     }
 
     public function create()
     {
-        $user = Auth::user()->division;
-        $member = User::where('division', $user)->orderBy('name', 'asc')->get();
+        $member = User::where(['division' => Auth::user()->division, 'role' => 'Member'])->orderBy('name', 'asc')->get();
         return view('leader.create-task', ['title' => 'Tambah Tugas', 'members' => $member]);
     }
 
@@ -107,8 +107,9 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        $user = Auth::user()->division;
-        $member = User::where('division', $user)->orderBy('name', 'asc')->get();
+        // $member = User::select('name')->where('id', $task->memberTask->id)->first();
+        // dd($member->name);
+        $member = User::where(['division' => Auth::user()->division, 'role' => 'Member'])->orderBy('name', 'asc')->get();
         return view('leader.edit-task', [
             'title' => 'Edit Tugas',
             'task' => $task,

@@ -53,12 +53,12 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ Str::of($task->start_date)->format('d M Y') ?? 'Tidak tersedia' }}
+                        {{ $task->start_date->format('d M Y') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ Str::of($task->end_date)->format('d M Y') ?? 'Tidak tersedia' }}
+                        {{ $task->end_date->format('d M Y') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3 flex items-center justify-end">

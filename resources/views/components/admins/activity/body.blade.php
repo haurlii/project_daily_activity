@@ -26,15 +26,15 @@
                             class="h-8 w-8 mr-3 rounded-full"> --}}
                         <div class="w-10 h-10 overflow-hidden rounded-full">
                             <img src="{{ asset('assets/images/user/user-default.png') }}"
-                                alt="{{ $activity->memberActivities->name }}">
+                                alt="{{ $activity->memberActivity->name }}">
                         </div>
                         <div>
                             <span class="block">
-                                {{ $activity->memberActivities->name }}
+                                {{ $activity->memberActivity->name }}
                             </span>
                             <span
                                 class="inline-flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-xs text-success-600 dark:bg-success-500/15 dark:text-success-500">
-                                {{ $activity->memberActivities->name }}
+                                {{ $activity->memberActivity->division }}
                             </span>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ Str::of($activity->start_date)->format('d M Y') ?? 'Tidak tersedia' }}
+                        {{ $activity->start_date->format('d M Y') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3 flex items-center justify-end">
