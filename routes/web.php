@@ -15,7 +15,6 @@ use App\Http\Controllers\AdminActivityController;
 use App\Http\Controllers\LeaderActivityController;
 use App\Http\Controllers\MemberActivityController;
 
-<<<<<<< HEAD
 Route::middleware('guest')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::get('/login', 'showLogin')->name('showLogin');
@@ -115,9 +114,4 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-=======
-Route::get('/', function () {
-    return view('auth.login');
->>>>>>> 55ef5d0d9f4984f4f036cf6e919727dbd08bfdf9
 });
-
