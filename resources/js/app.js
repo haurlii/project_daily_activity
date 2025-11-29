@@ -1,1 +1,4 @@
-import './bootstrap';
+import "./bootstrap";
+import "./alpinejs";
+import "./search";
+import "flowbite";
