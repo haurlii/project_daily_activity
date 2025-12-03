@@ -10,7 +10,7 @@
                 </p>
             </div>
             <div>
-                <form action="#" method="POST" class="space-y-5">
+                <form action="{{ route('login') }}" method="POST" class="space-y-5">
                     @csrf
                     <div class="space-y-5">
                         <!-- Email -->
