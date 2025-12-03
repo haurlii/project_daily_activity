@@ -8,7 +8,7 @@
                         Nama Anggota Baru
                     </label>
                     <input type="text" name="name" id="name" value="{{ old('name') }}"
-                        placeholder="Masukan nama anggota baru"
+                        placeholder="Masukan nama anggota baru" autofocus
                         class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                     @error('name')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
@@ -95,11 +95,12 @@
                             <option value="" selected="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
                                 --Silahkan Pilih Nama Anggota--
                             </option>
-                            <option value="{{ $user->division }}"
-                                class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" @selected(
-                                old('division')==$user->division)>
-                                {{ $user->division }}
+                            @foreach ($divisions as $division)
+                            <option value="{{ $division }}" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
+                                @selected( old('division')==$division)>
+                                {{ $division }}
                             </option>
+                            @endforeach
                         </select>
                         <span
                             class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-700 dark:text-gray-400">

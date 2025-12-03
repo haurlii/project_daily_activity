@@ -16,11 +16,11 @@ class UserController extends Controller
     public function index()
     {
         if (Auth::user()->role == 'SuperAdmin') {
-            $dataUser = User::where('role', '!=', 'SuperAdmin')->orderBy('name', 'asc');
-            return view('admin.index-user', ['title' => 'Data Karyawan', 'users' => $dataUser->paginate(7)->withQueryString()]);
+            $user = User::where('role', '!=', 'SuperAdmin')->orderBy('name', 'asc')->paginate(7)->withQueryString();
+            return view('admin.index-user', ['title' => 'Data Karyawan', 'users' => $user]);
         } else {
-            $dataUser = User::where('division', Auth::user()->division)->orderBy('name', 'asc');
-            return view('leader.index-user', ['title' => 'Data Anggota', 'users' => $dataUser->paginate(7)->withQueryString()]);
+            $user = User::where(['division' => Auth::user()->division, 'role' => 'Member'])->orderBy('name', 'asc')->paginate(7)->withQueryString();
+            return view('leader.index-user', ['title' => 'Data Anggota', 'users' => $user]);
         }
     }
 

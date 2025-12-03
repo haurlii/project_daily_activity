@@ -18,8 +18,8 @@
                             </option>
                             @foreach ( $members as $member)
                             <option value="{{ $member->id }}" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
-                                @selected( (old('member_id') ?? $task->member_id) == $member->id )>
-                                {{ $member->name }}
+                                @selected( (old('member_id') ?? $task->memberTask->id) == $member->id )>
+                                {{ $member->id }}
                             </option>
                             @endforeach
                         </select>

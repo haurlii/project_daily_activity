@@ -36,10 +36,17 @@
                             <span class="block">
                                 {{ $task->leaderTask->name }}
                             </span>
-                            <span
-                                class="inline-flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-xs text-success-600 dark:bg-success-500/15 dark:text-success-500">
-                                {{ $task->leaderTask->division }}
-                            </span>
+                            <div class="flex flex-wrap gap-2 sm:items-center sm:justify-start">
+                                <span
+                                    class="inline-flex items-center justify-center gap-1 rounded-full bg-brand-50 px-2.5 py-0.5 text-sm font-medium text-brand-500 dark:bg-brand-500/15 dark:text-brand-400">
+                                    {{ $task->leaderTask->role }}
+                                </span>
+
+                                <span
+                                    class="inline-flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-xs text-success-600 dark:bg-success-500/15 dark:text-success-500">
+                                    {{ $task->leaderTask->division }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -75,12 +82,12 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ Str::of($task->start_date)->format('d M Y') ?? 'Tidak tersedia' }}
+                        {{ $task->start_date->format('d M Y') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ Str::of($task->end_date)->format('d M Y') ?? 'Tidak tersedia' }}
+                        {{ $task->end_date->format('d M Y') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
@@ -92,7 +99,8 @@
                     </div>
                 </td>
                 <td class="px-6 py-3 flex items-center justify-end">
-                    <button id="task-1-dropdown-button" data-dropdown-toggle="task-1-dropdown"
+                    <button id="task-{{ $task->id }}-dropdown-button"
+                        data-dropdown-toggle="task-{{ $task->id }}-dropdown"
                         class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                         type="button">
                         <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20"
@@ -101,11 +109,11 @@
                                 d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
                         </svg>
                     </button>
-                    <div id="task-1-dropdown"
+                    <div id="task-{{ $task->id }}-dropdown"
                         class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                        <ul class="py-1 text-sm" aria-labelledby="task-1-dropdown-button">
+                        <ul class="py-1 text-sm" aria-labelledby="task-{{ $task->id }}-dropdown-button">
                             <li>
-                                <a href="/"
+                                <a href="{{ route('admin.tasks.show', $task->id) }}"
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
                                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
