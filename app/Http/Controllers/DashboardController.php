@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
 use App\Models\User;
 use App\Models\Activity;
 use Illuminate\Http\Request;
@@ -15,8 +16,8 @@ class DashboardController extends Controller
         $totalLeaders = User::where('role', 'leader')->count();
         $totalMembers = User::where('role', 'member')->count();
 
-        $assignedMembers    = User::where('role', 'member')->where('is_assigned', 1)->count();
-        $unassignedMembers  = User::where('role', 'member')->where('is_assigned', 0)->count();
+        $assignedMembers    = User::where('role', 'member')->whereHas('memberTasks')->count();
+        $unassignedMembers  = User::where('role', 'member')->whereDoesntHave('memberTasks')->count();
 
         return view('admin.dashboard', [
             'title' => 'Dashboard',
@@ -31,11 +32,11 @@ class DashboardController extends Controller
     public function indexLeader()
     {
         $user = Auth::user();
-        $sameDivUsers   = User::where('divisi', $user->divisi)->count();
-        $sameDivMembers = User::where('divisi', $user->divisi)->where('role', 'member')->count();
+        $sameDivUsers   = User::where('division', $user->division)->count();
+        $sameDivMembers = User::where('division', $user->division)->where('role', 'member')->count();
 
-        $assignedMembers    = User::where('divisi', $user->divisi)->where('role', 'member')->where('is_assigned', 1)->count();
-        $unassignedMembers  = User::where('divisi', $user->divisi)->where('role', 'member')->where('is_assigned', 0)->count();
+        $assignedMembers    = User::where('role', 'member')->where('division', $user->division)->whereHas('memberTasks')->count();
+        $unassignedMembers  = User::where('role', 'member')->where('division', $user->division)->whereDoesntHave('memberTasks')->count();
 
         $title = 'Dashboard';
         return view('leader.dashboard', compact(
@@ -49,20 +50,18 @@ class DashboardController extends Controller
 
     public function indexMember()
     {
-        $user = Auth::user();
-        $assignedStatus = $user->is_assigned;
+        $auth = Auth::user();
+        $user = Task::where('member_id', $auth->id)->first();
+        $assignedStatus = $user != null ? 'Assigned' : 'Unassigned';
 
-        $submitted = Activity::where('user_id', $user->id)->where('status', 'submitted')->count();
-        $inProgress = Activity::where('user_id', $user->id)->where('status', 'in_progress')->count();
-        $done = Activity::where('user_id', $user->id)->where('status', 'done')->count();
+        $submitted = Activity::where('user_id', $auth->id)->count();
 
         $title = 'Dashboard';
-        return view('dashboard.member', compact(
+
+        return view('member.dashboard', compact(
             'title',
             'assignedStatus',
             'submitted',
-            'inProgress',
-            'done'
         ));
     }
 }

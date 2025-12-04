@@ -3,7 +3,13 @@
         <div class="grid grid-cols-12 gap-4 md:gap-6">
             <div class="col-span-12 space-y-6 xl:col-span-12">
                 <!-- Metric Group One -->
-                <x-partials.grid-info />
+                <x-partials.grid-info
+                :totalUsers="$totalUsers"
+                :totalLeaders="$totalLeaders"
+                :totalMembers="$totalMembers"
+                :assignedMembers="$assignedMembers"
+                :unassignedMembers="$unassignedMembers"
+                />
                 <!-- Metric Group One -->
             </div>
 
