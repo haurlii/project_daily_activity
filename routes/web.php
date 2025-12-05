@@ -18,7 +18,9 @@ Route::middleware('auth')->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'indexAdmin'])->name('admin.indexAdmin');
         Route::get('/pdf', function () {
-            return view('admin.pdf-user', ['title' => 'PDF Test', 'users' => \App\Models\User::where('role', '!=', 'SuperAdmin')->orderBy('division', 'asc')->get()]);
+            $title = 'Data Aktivitas Karyawan Divisi '
+                . implode(', ', \App\Models\User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ';
+            return view('admin.pdf-activity', ['title' => $title, 'activities' => \App\Models\Activity::with(['memberActivity'])->orderBy('created_at', 'asc')->get()]);
         });
 
         // User

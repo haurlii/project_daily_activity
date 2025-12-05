@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Exports\ActivitiesExport;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -156,9 +157,7 @@ class ActivityController extends Controller
     {
         if (Auth::user()->role == 'SuperAdmin') {
             $filename = 'Data Aktivitas Karyawan Divisi '
-                . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray())
-                . ' '
-                . Carbon::now()->format('Y-m-d His');
+                . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ' . Carbon::now()->format('Y-m-d His');
             return Excel::download(new ActivitiesExport, "$filename.xlsx");
         } elseif (Auth::user()->role == 'Leader') {
             $filename = 'Data Aktivitas Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
@@ -171,26 +170,31 @@ class ActivityController extends Controller
         }
     }
 
-    // public function pdf()
-    // {
-    //     if (Auth::user()->role == 'SuperAdmin') {
-    //         $filename = 'Data Karyawan ' . Carbon::now()->format('Y-m-d His');
-    //         $data = array(
-    //             'user' => User::orderBy('jabatan', 'asc')->get(),
-    //             'tanggal' => now()->format('d-m-Y'),
-    //             'jam' => now()->format('H.i.s'),
-    //         );
-    //         // $pdf = Pdf::loadView('admin/user/pdf', $data);
-    //         // return $pdf->setPaper('a4', 'landscape')->download($filename . '.pdf');
-    //     } else {
-    //         $filename = 'Data Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
-    //         $data = array(
-    //             'user' => User::orderBy('jabatan', 'asc')->where('divisi', Auth::user()->divisi)->get(),
-    //             'tanggal' => now()->format('d-m-Y'),
-    //             'jam' => now()->format('H.i.s'),
-    //         );
-    //         // $pdf = Pdf::loadView('admin/user/pdf', $data);
-    //         // return $pdf->setPaper('a4', 'landscape')->download($filename . '.pdf');
-    //     }
-    // }
+    public function pdf()
+    {
+        if (Auth::user()->role == 'SuperAdmin') {
+            // Set title
+            $title = 'Data Aktivitas Karyawan Divisi ' . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ';
+            // Ambil data aktivitas
+            $activities = Activity::with(['memberActivity'])->orderBy('created_at', 'asc')->get();
+
+            // Set paper PDF & load view
+            $pdf = Pdf::loadView('admin.pdf-activity', ['activities' => $activities, 'title' => $title]);
+            $pdf->setPaper('A4', 'landscape');
+            // Set filename
+            $filename = 'Data Aktivitas Karyawan Divisi '
+                . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ' . Carbon::now()->format('Y-m-d His');
+
+            return $pdf->download($filename . '.pdf');
+        } else {
+            $filename = 'Data Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
+            $data = array(
+                'user' => User::orderBy('jabatan', 'asc')->where('divisi', Auth::user()->divisi)->get(),
+                'tanggal' => now()->format('d-m-Y'),
+                'jam' => now()->format('H.i.s'),
+            );
+            // $pdf = Pdf::loadView('admin/user/pdf', $data);
+            // return $pdf->setPaper('a4', 'landscape')->download($filename . '.pdf');
+        }
+    }
 }
