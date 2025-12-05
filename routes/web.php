@@ -17,11 +17,14 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:SuperAdmin')->prefix('/admin')->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'indexAdmin'])->name('admin.indexAdmin');
+        Route::get('/pdf', function () {
+            return view('admin.pdf-user', ['title' => 'PDF Test', 'users' => \App\Models\User::where('role', '!=', 'SuperAdmin')->orderBy('division', 'asc')->get()]);
+        });
 
         // User
         Route::controller(UserController::class)->group(function () {
             Route::get('/users', 'index')->name('admin.users.index');
-            Route::get('/users/{user:id}', 'show')->name('admin.users.show');
+            // Route::get('/users/{user:id}', 'show')->name('admin.users.show');
             Route::get('/users/excel', 'excel')->name('admin.users.excel');
             Route::get('/users/pdf', 'pdf')->name('admin.users.pdf');
         });
@@ -29,7 +32,7 @@ Route::middleware('auth')->group(function () {
         // Task
         Route::controller(TaskController::class)->group(function () {
             Route::get('/tasks', 'index')->name('admin.tasks.index');
-            Route::get('/tasks/{task:id}', 'show')->name('admin.tasks.show');
+            // Route::get('/tasks/{task:id}', 'show')->name('admin.tasks.show');
             Route::get('/tasks/excel', 'excel')->name('admin.tasks.excel');
             Route::get('/tasks/pdf', 'pdf')->name('admin.tasks.pdf');
         });
@@ -37,7 +40,7 @@ Route::middleware('auth')->group(function () {
         // Activity
         Route::controller(ActivityController::class)->group(function () {
             Route::get('/activities', 'index')->name('admin.activities.index');
-            Route::get('/activities/{activity:id}', 'show')->name('admin.activities.show');
+            // Route::get('/activities/{activity:id}', 'show')->name('admin.activities.show');
             Route::get('/activities/excel', 'excel')->name('admin.activities.excel');
             Route::get('/activities/pdf', 'pdf')->name('admin.activities.pdf');
         });

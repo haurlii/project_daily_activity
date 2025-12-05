@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Exports\UsersExport;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Redirect;
 
@@ -164,42 +164,41 @@ class UserController extends Controller
         }
     }
 
-    // public function excel()
-    // {
-    //     $user = Auth::user();
-    //     if ($user->role == 'SuperAdmin') {
-    //         $filename = now()->format('d-m-Y_H.i.s');
-    //         return Excel::download(new UsersExport, 'DataUser_' . $filename . '.xlsx');
-    //     } elseif ($user->role == 'Admin') {
-    //         $filename = now()->format('d-m-Y_H.i.s');
-    //         return Excel::download(new UsersExport, 'DataUser_' . $user->divisi . '_' . $filename . '.xlsx');
-    //     } else {
-    //         return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses untuk mengunduh data user.');
-    //     }
-    // }
-    // public function pdf()
-    // {
-    //     $user = Auth::user();
-    //     if ($user->role == 'SuperAdmin') {
-    //         $filename = now()->format('d-m-Y_H.i.s');
-    //         $data = array(
-    //             'user' => User::orderBy('jabatan', 'asc')->get(),
-    //             'tanggal' => now()->format('d-m-Y'),
-    //             'jam' => now()->format('H.i.s'),
-    //         );
-    //         $pdf = Pdf::loadView('admin/user/pdf', $data);
-    //         return $pdf->setPaper('a4', 'landscape')->download('DataUser_' . $filename . '.pdf');
-    //     } elseif ($user->role == 'Admin') {
-    //         $filename = now()->format('d-m-Y_H.i.s');
-    //         $data = array(
-    //             'user' => User::orderBy('jabatan', 'asc')->where('divisi', $user->divisi)->get(),
-    //             'tanggal' => now()->format('d-m-Y'),
-    //             'jam' => now()->format('H.i.s'),
-    //         );
-    //         $pdf = Pdf::loadView('admin/user/pdf', $data);
-    //         return $pdf->setPaper('a4', 'landscape')->download('DataUser_' . $user->divisi . '_' . $filename . '.pdf');
-    //     } else {
-    //         return redirect()->route('dashboard')->with('error', 'Anda tidak memiliki akses untuk mengunduh data user.');
-    //     }
-    // }
+    public function excel()
+    {
+        if (Auth::user()->role == 'SuperAdmin') {
+            $filename = 'Data Karyawan Divisi '
+                . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray())
+                . ' '
+                . Carbon::now()->format('Y-m-d His');
+            return Excel::download(new UsersExport, "$filename.ods");
+        } else {
+            $filename = 'Data Anggota ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
+            return Excel::download(new UsersExport, "$filename.xlsx");
+        }
+    }
+
+    public function pdf()
+    {
+        if (Auth::user()->role == 'SuperAdmin') {
+            $filename = 'Data Karyawan Divisi '
+                . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray())
+                . ' '
+                . Carbon::now()->format('Y-m-d His');
+
+            $users = User::where('role', '!=', 'SuperAdmin')->orderBy('division', 'asc')->get();
+
+            $pdf = Pdf::loadView('admin.pdf-user', ['users' => $users]);
+
+            return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
+        } else {
+            $filename = 'Data Anggota Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
+
+            $users = User::where(['division' => Auth::user()->division, 'role' => 'Member'])->orderBy('name', 'asc')->get();
+
+            $pdf = Pdf::loadView('leader.pdf-user', ['users' => $users]);
+
+            return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
+        }
+    }
 }

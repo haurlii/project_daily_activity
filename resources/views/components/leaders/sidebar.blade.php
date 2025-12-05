@@ -40,8 +40,8 @@
 <li>
     <a href="{{ route('leader.tasks.index') }}" @click="selected = (selected === 'Tugas' ? '':'Tugas')"
         class="menu-item group hover:menu-item-active"
-        :class="(page === 'Data Tugas' || page === 'Tambah Tugas' || page === 'Detail Tugas' || page === 'Update Tugas' || page === 'Delete Tugas') ? 'menu-item-active' : 'menu-item-inactive'">
-        <svg :class="(page === 'Data Tugas' || page === 'Tambah Tugas' || page === 'Detail Tugas' || page === 'Update Tugas' || page === 'Delete Tugas') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
+        :class="(page === 'Data Tugas' || page === 'Tambah Tugas' || page === 'Detail Tugas' || page === 'Edit Tugas' || page === 'Delete Tugas') ? 'menu-item-active' : 'menu-item-inactive'">
+        <svg :class="(page === 'Data Tugas' || page === 'Tambah Tugas' || page === 'Detail Tugas' || page === 'Edit Tugas' || page === 'Delete Tugas') ? 'menu-item-icon-active'  :'menu-item-icon-inactive'"
             width="24" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg"
             transform="rotate(0 0 0)">
             <path fill-rule="evenodd" clip-rule="evenodd"

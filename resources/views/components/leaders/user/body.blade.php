@@ -141,7 +141,7 @@
                             Peringatan!
                         </h4>
                         <p class="text-sm leading-6 text-gray-500 dark:text-gray-400">
-                            Apakah Anda yakin ingin menghapus data penulis buku yang satu ini?
+                            Apakah Anda yakin ingin menghapus data anggota yang satu ini?
                         </p>
 
                         <div class="flex items-center justify-center w-full gap-3 mt-7">

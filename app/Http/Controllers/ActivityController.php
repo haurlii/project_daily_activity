@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Activity;
 use Illuminate\Http\Request;
+use App\Exports\ActivitiesExport;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Redirect;
 
 class ActivityController extends Controller
@@ -149,13 +152,45 @@ class ActivityController extends Controller
         return Redirect::route('member.activities.index')->with(['message' => 'Data Berhasil Di Hapus']);
     }
 
-    // public function excel(Activity $activity)
-    // {
-    //     return Excel::download(new ActivityExport($activity), 'activity.xlsx');
-    // }
+    public function excel()
+    {
+        if (Auth::user()->role == 'SuperAdmin') {
+            $filename = 'Data Aktivitas Karyawan Divisi '
+                . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray())
+                . ' '
+                . Carbon::now()->format('Y-m-d His');
+            return Excel::download(new ActivitiesExport, "$filename.xlsx");
+        } elseif (Auth::user()->role == 'Leader') {
+            $filename = 'Data Aktivitas Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
+            return Excel::download(new ActivitiesExport, "$filename.xlsx");
+        } else {
+            $filename = 'Data Aktivitas ' . Auth::user()->name .
+                ' Divisi ' . Auth::user()->divisi .
+                ' ' . Carbon::now()->format('Y-m-d His');
+            return Excel::download(new ActivitiesExport, "$filename.xlsx");
+        }
+    }
 
-    // public function pdf(Activity $activity)
+    // public function pdf()
     // {
-    //     return PDF::download(new ActivityExport($activity), 'activity.pdf');
+    //     if (Auth::user()->role == 'SuperAdmin') {
+    //         $filename = 'Data Karyawan ' . Carbon::now()->format('Y-m-d His');
+    //         $data = array(
+    //             'user' => User::orderBy('jabatan', 'asc')->get(),
+    //             'tanggal' => now()->format('d-m-Y'),
+    //             'jam' => now()->format('H.i.s'),
+    //         );
+    //         // $pdf = Pdf::loadView('admin/user/pdf', $data);
+    //         // return $pdf->setPaper('a4', 'landscape')->download($filename . '.pdf');
+    //     } else {
+    //         $filename = 'Data Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
+    //         $data = array(
+    //             'user' => User::orderBy('jabatan', 'asc')->where('divisi', Auth::user()->divisi)->get(),
+    //             'tanggal' => now()->format('d-m-Y'),
+    //             'jam' => now()->format('H.i.s'),
+    //         );
+    //         // $pdf = Pdf::loadView('admin/user/pdf', $data);
+    //         // return $pdf->setPaper('a4', 'landscape')->download($filename . '.pdf');
+    //     }
     // }
 }
