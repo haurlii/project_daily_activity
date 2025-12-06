@@ -173,7 +173,7 @@ class UserController extends Controller
                 . Carbon::now()->format('Y-m-d His');
             return Excel::download(new UsersExport, "$filename.ods");
         } else {
-            $filename = 'Data Anggota ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
+            $filename = 'Data Anggota Divisi ' . Auth::user()->division . ' ' . Carbon::now()->translatedFormat('Y-m-d His');
             return Excel::download(new UsersExport, "$filename.xlsx");
         }
     }

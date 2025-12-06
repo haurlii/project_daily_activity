@@ -160,11 +160,11 @@ class ActivityController extends Controller
                 . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ' . Carbon::now()->format('Y-m-d His');
             return Excel::download(new ActivitiesExport, "$filename.xlsx");
         } elseif (Auth::user()->role == 'Leader') {
-            $filename = 'Data Aktivitas Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
+            $filename = 'Data Aktivitas Anggota Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
             return Excel::download(new ActivitiesExport, "$filename.xlsx");
         } else {
             $filename = 'Data Aktivitas ' . Auth::user()->name .
-                ' Divisi ' . Auth::user()->divisi .
+                ' Divisi ' . Auth::user()->division .
                 ' ' . Carbon::now()->format('Y-m-d His');
             return Excel::download(new ActivitiesExport, "$filename.xlsx");
         }
@@ -186,15 +186,18 @@ class ActivityController extends Controller
                 . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ' . Carbon::now()->format('Y-m-d His');
 
             return $pdf->download($filename . '.pdf');
-        } else {
-            $filename = 'Data Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
-            $data = array(
-                'user' => User::orderBy('jabatan', 'asc')->where('divisi', Auth::user()->divisi)->get(),
-                'tanggal' => now()->format('d-m-Y'),
-                'jam' => now()->format('H.i.s'),
-            );
-            // $pdf = Pdf::loadView('admin/user/pdf', $data);
-            // return $pdf->setPaper('a4', 'landscape')->download($filename . '.pdf');
+        } elseif (Auth::user()->role == 'Leader') {
+            // Set title
+            $title = 'Data Aktivitas Anggota Divisi ' . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ';
+
+            $activities = Activity::whereHas('memberActivity', function ($query) {
+                $query->where('division', Auth::user()->division);
+            })->with('memberActivity')->orderBy('created_at', 'asc')->get();
+
+            $filename = 'Data Aktivitas Anggota Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
+            $pdf = Pdf::loadView('leader.pdf-activity', ['activities' => $activities, 'title' => $title]);
+
+            return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
         }
     }
 }

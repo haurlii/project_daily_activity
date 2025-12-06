@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
@@ -17,11 +18,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:SuperAdmin')->prefix('/admin')->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'indexAdmin'])->name('admin.indexAdmin');
-        Route::get('/pdf', function () {
-            $title = 'Data Aktivitas Karyawan Divisi '
-                . implode(', ', \App\Models\User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ';
-            return view('admin.pdf-activity', ['title' => $title, 'activities' => \App\Models\Activity::with(['memberActivity'])->orderBy('created_at', 'asc')->get()]);
-        });
 
         // User
         Route::controller(UserController::class)->group(function () {
@@ -51,38 +47,68 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Leader')->prefix('/leader')->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'indexLeader'])->name('leader.indexLeader');
+        // Route::get('/pdf', function () {
+        //     $title = 'Data Anggota Divisi '
+        //         . Auth::user()->division . ' ';
+        //     return view('leader.pdf-activity', ['title' => $title, 'activities' => \App\Models\Activity::whereHas('memberActivity', function ($query) {
+        //         $query->where('division', Auth::user()->division);
+        //     })->with('memberActivity')->orderBy('created_at', 'asc')->get()]);
+        // });
 
         // User Management
         Route::controller(UserController::class)->group(function () {
+            // index
             Route::get('/users', 'index')->name('leader.users.index');
+
+            // create & store
             Route::get('/users/create', 'create')->name('leader.users.create');
             Route::post('/users/create', 'store')->name('leader.users.store');
+
+            // edit & update
             Route::get('/users/edit/{user:id}', 'edit')->name('leader.users.edit');
             Route::patch('/users/edit/{user:id}', 'update')->name('leader.users.update');
+
+            // delete
             Route::delete('/users/{user:id}', 'destroy')->name('leader.users.destroy');
-            Route::get('/users/excel', 'excel')->name('leader.users.excel');
-            Route::get('/users/pdf', 'pdf')->name('leader.users.pdf');
+
+            // Export
             Route::get('/users/excel', 'excel')->name('leader.users.excel');
             Route::get('/users/pdf', 'pdf')->name('leader.users.pdf');
         });
 
         Route::controller(TaskController::class)->group(function () {
+            // index
             Route::get('/tasks', 'index')->name('leader.tasks.index');
+
+            // create & store
             Route::get('/tasks/create', 'create')->name('leader.tasks.create');
             Route::post('/tasks/create', 'store')->name('leader.tasks.store');
-            Route::get('/tasks/{task:id}', 'show')->name('leader.tasks.show');
-            Route::get('/tasks/edit/{task:id}', 'edit')->name('leader.tasks.edit');
-            Route::patch('/tasks/edit/{task:id}', 'update')->name('leader.tasks.update');
-            Route::delete('/tasks/{task:id}', 'destroy')->name('leader.tasks.destroy');
+
+            // Export
             Route::get('/tasks/excel', 'excel')->name('leader.tasks.excel');
             Route::get('/tasks/pdf', 'pdf')->name('leader.tasks.pdf');
+
+            // edit & update
+            Route::get('/tasks/edit/{task:id}', 'edit')->name('leader.tasks.edit');
+            Route::patch('/tasks/edit/{task:id}', 'update')->name('leader.tasks.update');
+
+            // show
+            Route::get('/tasks/{task:id}', 'show')->name('leader.tasks.show');
+
+            // delete
+            Route::delete('/tasks/{task:id}', 'destroy')->name('leader.tasks.destroy');
         });
 
         Route::controller(ActivityController::class)->group(function () {
+            // index
             Route::get('/activities', 'index')->name('leader.activities.index');
-            Route::get('/activities/{activity:id}', 'show')->name('leader.activities.show');
+
+            // Export
             Route::get('/activities/excel', 'excel')->name('leader.activities.excel');
             Route::get('/activities/pdf', 'pdf')->name('leader.activities.pdf');
+
+            // show
+            Route::get('/activities/{activity:id}', 'show')->name('leader.activities.show');
         });
     });
 

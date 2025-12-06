@@ -27,7 +27,6 @@ class UsersExport implements FromQuery, WithMapping, WithHeadings
         if (Auth::user()->role == 'SuperAdmin') {
             return ['Nama', 'Email', 'Alamat', 'Kontak', 'Posisi', 'Divisi'];
         }
-
         return ['Nama', 'Email', 'Alamat', 'Kontak'];
     }
 

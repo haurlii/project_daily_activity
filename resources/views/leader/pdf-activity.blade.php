@@ -12,8 +12,6 @@
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 Nama Karyawan</th>
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Divisi</th>
-            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 Detail Tugas</th>
         </tr>
     </thead>
@@ -28,9 +26,6 @@
             </td>
             <td align="left" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 {{ $activity->memberActivity->name }}
-            </td>
-            <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $activity->memberActivity->division }}
             </td>
             <td align="justify" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 {{ $activity->description ?? "Tidak ada" }}

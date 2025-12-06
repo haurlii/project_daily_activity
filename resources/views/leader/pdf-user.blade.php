@@ -16,10 +16,6 @@
                 Alamat</th>
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 Kontak</th>
-            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Posisi</th>
-            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Divisi</th>
         </tr>
     </thead>
     <tbody>
@@ -39,12 +35,6 @@
             </td>
             <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 {{ $user->contact ?? "Tidak ada" }}
-            </td>
-            <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $user->role }}
-            </td>
-            <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $user->division }}
             </td>
         </tr>
         @endforeach

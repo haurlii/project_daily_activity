@@ -16,14 +16,14 @@ class ActivitiesExport implements FromQuery, WithMapping, WithHeadings
     public function query()
     {
         if (Auth::user()->role == 'SuperAdmin') {
-            return Activity::query()->with(['memberActivity']);
+            return Activity::query()->with(['memberActivity'])->orderBy('created_at', 'asc');
         } elseif (Auth::user()->role == 'Leader') {
             return Activity::query()->whereHas('memberActivity', function ($query) {
                 $query->where('division', Auth::user()->division);
-            })->with('memberActivity');
+            })->with('memberActivity')->orderBy('created_at', 'asc');
         } else {
             // Member
-            return Activity::query()->where('user_id', Auth::user()->id);
+            return Activity::query()->where('user_id', Auth::user()->id)->orderBy('created_at', 'asc');
         }
     }
 
@@ -41,11 +41,11 @@ class ActivitiesExport implements FromQuery, WithMapping, WithHeadings
     public function map($activity): array
     {
         if (Auth::user()->role == 'SuperAdmin') {
-            return [$activity->start_date, $activity->memberActivity->name, $activity->memberActivity->division, $activity->description];
+            return [$activity->start_date->translatedFormat('d F Y'), $activity->memberActivity->name, $activity->memberActivity->division, $activity->description];
         } elseif (Auth::user()->role == 'Leader') {
-            return [$activity->start_date, $activity->memberActivity->name, $activity->description];
+            return [$activity->start_date->translatedFormat('d F Y'), $activity->memberActivity->name, $activity->description];
         } else {
-            return [$activity->start_date, $activity->description];
+            return [$activity->start_date->translatedFormat('d F Y'), $activity->description];
         }
     }
 }

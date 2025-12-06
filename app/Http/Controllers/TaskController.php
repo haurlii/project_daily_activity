@@ -148,11 +148,11 @@ class TaskController extends Controller
                 . Carbon::now()->format('Y-m-d His');
             return Excel::download(new TasksExport, "$filename.xlsx");
         } elseif (Auth::user()->role == 'Leader') {
-            $filename = 'Data Tugas Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
+            $filename = 'Data Tugas Anggota Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
             return Excel::download(new TasksExport, "$filename.xlsx");
         } else {
             $filename = 'Data Tugas ' . Auth::user()->name .
-                ' Divisi ' . Auth::user()->divisi .
+                ' Divisi ' . Auth::user()->division .
                 ' ' . Carbon::now()->format('Y-m-d His');
             return Excel::download(new TasksExport, "$filename.xlsx");
         }
@@ -174,15 +174,18 @@ class TaskController extends Controller
                 . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ' . Carbon::now()->format('Y-m-d His');
 
             return $pdf->download($filename . '.pdf');
-        } else {
-            $filename = 'Data Anggota Divisi ' . Auth::user()->divisi . ' ' . Carbon::now()->format('Y-m-d His');
-            $data = array(
-                'user' => User::orderBy('jabatan', 'asc')->where('divisi', Auth::user()->divisi)->get(),
-                'tanggal' => now()->format('d-m-Y'),
-                'jam' => now()->format('H.i.s'),
-            );
-            // $pdf = Pdf::loadView('admin/user/pdf', $data);
-            // return $pdf->setPaper('a4', 'landscape')->download($filename . '.pdf');
+        } elseif (Auth::user()->role == 'Leader') {
+            // Set title
+            $title = 'Data Tugas Anggota Divisi ' . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ';
+
+            $tasks = Task::whereHas('memberTask', function ($query) {
+                $query->where('division', Auth::user()->division);
+            })->with('memberTask')->orderBy('created_at', 'asc')->get();
+
+            $filename = 'Data Tugas Anggota Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
+            $pdf = Pdf::loadView('leader.pdf-task', ['tasks' => $tasks, 'title' => $title]);
+
+            return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
         }
     }
 }
