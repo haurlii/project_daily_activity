@@ -177,13 +177,23 @@ class TaskController extends Controller
         } elseif (Auth::user()->role == 'Leader') {
             // Set title
             $title = 'Data Tugas Anggota Divisi ' . implode(', ', User::pluck('division')->filter()->unique()->sort()->values()->toArray()) . ' ';
-
+            // Ambil data tugas
             $tasks = Task::whereHas('memberTask', function ($query) {
                 $query->where('division', Auth::user()->division);
             })->with('memberTask')->orderBy('created_at', 'asc')->get();
-
+            // Set paper PDF & set name file
             $filename = 'Data Tugas Anggota Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
             $pdf = Pdf::loadView('leader.pdf-task', ['tasks' => $tasks, 'title' => $title]);
+
+            return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
+        } else {
+            // Set title
+            $title = 'Data Tugas ' . Auth::user()->name . ' Divisi ' . Auth::user()->division . ' ';
+            // Ambil data tugas
+            $tasks = Task::where('member_id', Auth::user()->id)->with('memberTask')->orderBy('created_at', 'asc')->get();
+            // Set paper PDF & set name file
+            $filename = 'Data Tugas ' . Auth::user()->name . ' Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
+            $pdf = Pdf::loadView('member.pdf-task', ['tasks' => $tasks, 'title' => $title]);
 
             return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
         }

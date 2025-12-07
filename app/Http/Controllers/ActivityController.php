@@ -198,6 +198,16 @@ class ActivityController extends Controller
             $pdf = Pdf::loadView('leader.pdf-activity', ['activities' => $activities, 'title' => $title]);
 
             return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
+        } else {
+            // Set title
+            $title = 'Data Aktivitas ' . Auth::user()->name . ' Divisi ' . Auth::user()->division . ' ';
+            // Ambil data aktivitas
+            $activities = Activity::where('user_id', Auth::user()->id)->with('memberActivity')->orderBy('created_at', 'asc')->get();
+            // Set paper PDF & set name file
+            $filename = 'Data Aktivitas ' . Auth::user()->name . ' Divisi ' . Auth::user()->division . ' ' . Carbon::now()->format('Y-m-d His');
+            $pdf = Pdf::loadView('member.pdf-activity', ['activities' => $activities, 'title' => $title]);
+
+            return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
         }
     }
 }

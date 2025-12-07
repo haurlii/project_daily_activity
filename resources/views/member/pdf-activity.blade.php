@@ -8,37 +8,22 @@
             <th align="center" style="padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px;">No
             </th>
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Nama Ketua</th>
-            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Tugas</th>
-            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Detail Tugas</th>
-            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 Tanggal Pengerjaan</th>
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Batas Pengerjaan</th>
+                Detail Tugas</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($tasks as $task)
+        @foreach ($activities as $activity)
         <tr>
             <td align="center" style="padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px;">
                 {{ $loop->iteration }}
             </td>
             <td align="left" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $task->leaderTask->name }}
+                {{ $activity->start_date->translatedFormat('d F Y') }}
             </td>
             <td align="justify" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $task->title ?? "Tidak ada" }}
-            </td>
-            <td align="justify" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $task->description ?? "Tidak ada" }}
-            </td>
-            <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $task->start_date->translatedFormat('d F Y') }}
-            </td>
-            <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                {{ $task->end_date->translatedFormat('d F Y') }}
+                {{ $activity->description ?? "Tidak ada" }}
             </td>
         </tr>
         @endforeach
@@ -50,10 +35,7 @@
     <tr>
         <!-- Kolom Kiri -->
         <td align="left" style="vertical-align: top;">
-            <p><strong>Total Tugas:</strong> 5</p>
-            <p><strong>Dikerjakan:</strong> 4</p>
-            <p><strong>Tertunda:</strong> 1</p>
-            <p><strong>Selesai:</strong> 1</p>
+            <p><strong>Total Aktivitas:</strong> 5</p>
         </td>
 
         <!-- Kolom Kanan -->

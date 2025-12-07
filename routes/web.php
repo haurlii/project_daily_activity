@@ -47,13 +47,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:Leader')->prefix('/leader')->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'indexLeader'])->name('leader.indexLeader');
-        // Route::get('/pdf', function () {
-        //     $title = 'Data Anggota Divisi '
-        //         . Auth::user()->division . ' ';
-        //     return view('leader.pdf-activity', ['title' => $title, 'activities' => \App\Models\Activity::whereHas('memberActivity', function ($query) {
-        //         $query->where('division', Auth::user()->division);
-        //     })->with('memberActivity')->orderBy('created_at', 'asc')->get()]);
-        // });
 
         // User Management
         Route::controller(UserController::class)->group(function () {
@@ -118,23 +111,45 @@ Route::middleware('auth')->group(function () {
 
         // Task
         Route::controller(TaskController::class)->group(function () {
+            // index
             Route::get('/tasks', 'index')->name('member.tasks.index');
+
+            // Export
+            Route::get('/tasks/excel', 'excel')->name('member.tasks.excel');
+            Route::get('/tasks/pdf', 'pdf')->name('member.tasks.pdf');
+
+            // Export
             Route::get('/tasks/{task:id}', 'show')->name('member.tasks.show');
         });
 
         // Activity
         Route::controller(ActivityController::class)->group(function () {
+            // index
             Route::get('/activities', 'index')->name('member.activities.index');
+
+            // create & store
             Route::get('/activities/create', 'create')->name('member.activities.create');
             Route::post('/activities/create', 'store')->name('member.activities.store');
-            Route::get('/activities/{activity:id}', 'show')->name('member.activities.show');
-            Route::get('/activities/edit/{activity:id}', 'edit')->name('member.activities.edit');
-            Route::patch('/activities/edit/{activity:id}', 'update')->name('member.activities.update');
-            Route::delete('/activities/{activity:id}', 'destroy')->name('member.activities.destroy');
+
+            // Export
             Route::get('/activities/excel', 'excel')->name('member.activities.excel');
             Route::get('/activities/pdf', 'pdf')->name('member.activities.pdf');
+
+            // edit & update
+            Route::get('/activities/edit/{activity:id}', 'edit')->name('member.activities.edit');
+            Route::patch('/activities/edit/{activity:id}', 'update')->name('member.activities.update');
+
+            // show
+            Route::get('/activities/{activity:id}', 'show')->name('member.activities.show');
+
+            // delete
+            Route::delete('/activities/{activity:id}', 'destroy')->name('member.activities.destroy');
         });
     });
+
+    Route::get('/', function () {
+        return view('home');
+    })->name('home');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
