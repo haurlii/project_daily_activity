@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\StatusTask;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Task extends Model
 {
@@ -14,6 +16,7 @@ class Task extends Model
         'description',
         'start_date',
         'end_date',
+        'status',
     ];
 
     protected function casts(): array
@@ -21,7 +24,13 @@ class Task extends Model
         return [
             'start_date' => 'date',
             'end_date' => 'date',
+            'status' => StatusTask::class,
         ];
+    }
+
+    public function activity(): HasOne
+    {
+        return $this->hasOne(Activity::class, 'task_id');
     }
 
     public function leaderTask(): BelongsTo
