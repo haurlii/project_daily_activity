@@ -4,6 +4,17 @@
             @csrf
             <div class="-mx-2.5 flex flex-wrap gap-y-5">
                 <div class="w-full px-2.5">
+                    <label for="title" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                        Judul Aktivitas
+                    </label>
+                    <input type="text" name="title" id="title" value="{{ old('title') }}" placeholder="Masukan tugas"
+                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                    @error('title')
+                    <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="w-full px-2.5">
                     <label for="description" class=" mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Detail Aktivitas
                     </label>

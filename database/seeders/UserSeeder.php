@@ -15,12 +15,25 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()->create([
+            'username' => $username = 'superadmin',
             'role' => 'SuperAdmin',
             'division' => null,
-            'password' => Hash::make('superadmin'),
+            'password' => Hash::make($username),
+        ]);
+        User::factory()->create([
+            'username' => $username = 'leader',
+            'role' => 'Leader',
+            'division' => 'Finance',
+            'password' => Hash::make($username),
+        ]);
+        User::factory()->create([
+            'username' => $username = 'member',
+            'role' => 'Member',
+            'division' => 'Finance',
+            'password' => Hash::make($username),
         ]);
 
-        $divisions = ['HR', 'IT', 'Finance'];
+        $divisions = ['HR', 'IT'];
         foreach ($divisions as $division) {
             User::factory()->create([
                 'role' => 'Leader',
@@ -28,6 +41,6 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('leader'),
             ]);
         }
-        User::factory(30)->create();
+        User::factory(40)->create();
     }
 }

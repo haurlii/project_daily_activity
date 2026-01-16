@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('contact')->nullable();
             $table->enum('role', ['SuperAdmin', 'Leader', 'Member'])->default('Member');
             $table->enum('division', ['HR', 'IT', 'Finance'])->nullable();
-            $table->boolean('confirmed')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -9,6 +9,7 @@
                 <th scope="col" class="px-6 py-3">Detail Tugas</th>
                 <th scope="col" class="px-6 py-3 whitespace-nowrap">Tanggal Pengerjaan</th>
                 <th scope="col" class="px-6 py-3 whitespace-nowrap">Batas Pengerjaan</th>
+                <th scope="col" class="px-6 py-3">Status</th>
                 <th scope="col" class="px-4 py-3">
                     <span class="sr-only">Actions</span>
                 </th>
@@ -61,6 +62,35 @@
                         {{ $task->end_date->format('d F Y') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        @if ( $task->status === App\Enums\StatusTask::NOT_STARTED )
+                        <!-- Error Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
+                            {{ $task->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @elseif ( $task->status === App\Enums\StatusTask::PENDING )
+                        <!-- Warning Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-warning-50 px-2.5 py-0.5 text-sm font-medium text-warning-600 dark:bg-warning-500/15 dark:text-orange-400">
+                            {{ $task->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @elseif ( $task->status === App\Enums\StatusTask::ON_PROGRESS )
+                        <!-- Info Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">
+                            {{ $task->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @else
+                        <!-- Success Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-sm font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
+                            {{ $task->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @endif
+                    </div>
+                </td>
                 <td class="px-6 py-3 flex items-center justify-end">
                     <button id="task-{{ $task->id }}-dropdown-button"
                         data-dropdown-toggle="task-{{ $task->id }}-dropdown"
@@ -93,6 +123,7 @@
                                     View
                                 </a>
                             </li>
+                            @if ( $task->status !== App\Enums\StatusTask::SUCCESS )
                             <li>
                                 <a href="{{ route('leader.tasks.edit', $task->id) }}"
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
@@ -107,6 +138,7 @@
                                     Edit
                                 </a>
                             </li>
+                            @endif
                             <li>
                                 <button type="button" data-modal-target="deletetaskModal-{{ $task->id }}"
                                     data-modal-toggle="deletetaskModal-{{ $task->id }}"

@@ -5,6 +5,7 @@
             <tr>
                 <th scope="col" class="px-4 py-4">#</th>
                 <th scope="col" class="px-6 py-3">Nama Karyawan</th>
+                <th scope="col" class="px-6 py-3">Judul Aktivitas</th>
                 <th scope="col" class="px-6 py-3">Detail Aktivitas</th>
                 <th scope="col" class="px-6 py-3">Hari, Tanggal Pengerjaan</th>
                 <th scope="col" class="px-4 py-3">
@@ -37,6 +38,11 @@
                                 {{ $activity->memberActivity->division }}
                             </span>
                         </div>
+                    </div>
+                </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        {{ Str::of($activity->title)->limit(75) ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">

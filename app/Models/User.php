@@ -27,7 +27,7 @@ class User extends Authenticatable
         'contact',
         'role',
         'division',
-        'confirmed',
+        'status',
     ];
 
     /**
