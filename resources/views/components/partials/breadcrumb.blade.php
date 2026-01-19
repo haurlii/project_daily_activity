@@ -35,7 +35,7 @@
                         </svg>
                     </span>
 
-                    <span x-text="pageName"> Ui Kits </span>
+                    <span x-text="pageName"> ... </span>
                 </li>
             </ol>
         </nav>

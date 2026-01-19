@@ -155,7 +155,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/', function () {
-        return view('home');
+        return view('home', ['title' => 'Home']);
     })->name('home');
 
 
