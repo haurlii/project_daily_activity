@@ -8,7 +8,6 @@
                 <th scope="col" class="px-6 py-3">Email</th>
                 <th scope="col" class="px-6 py-3">Alamat</th>
                 <th scope="col" class="px-6 py-3">Kontak</th>
-                <th scope="col" class="px-6 py-3">Status</th>
                 <th scope="col" class="px-6 py-3">
                     <span class="sr-only">Actions</span>
                 </th>
@@ -44,11 +43,6 @@
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
                         {{ $user->contact ?? 'Tidak tersedia' }}
-                    </div>
-                </td>
-                <td class="px-6 py-3">
-                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $user->confirmed ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3 flex items-center justify-end">

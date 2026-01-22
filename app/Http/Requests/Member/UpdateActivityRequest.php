@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Http\Requests\Member;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+
+class UpdateActivityRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return Auth::user()->role === "Member";
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'description' => 'required|string|max:1000',
+            'start_date' => 'required|date',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'description.required' => 'Detail aktivitas tidak boleh kosong',
+            'description.max' => 'Detail aktivitas terlalu panjang',
+            'start_date.required' => 'Tanggal pengerjaan tidak boleh kosong',
+            'start_date.date' => 'Format tanggal tidak valid',
+        ];
+    }
+}

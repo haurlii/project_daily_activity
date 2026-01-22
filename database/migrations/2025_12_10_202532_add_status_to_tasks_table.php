@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->string('status')->default(StatusTask::PENDING->value);
+            $table->string('status')->default(StatusTask::NOT_STARTED->value);
         });
     }
 
@@ -22,8 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->string('status')->default(StatusTask::PENDING->value);
-        });
+        Schema::dropIfExists('tasks');
     }
 };

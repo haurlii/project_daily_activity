@@ -1,3 +1,3 @@
-<x-layout :title="$title">
+<x-layouts.app :title="$title">
     <p>This is {{ $title }} Page</p>
-</x-layout>
+</x-layouts.app>

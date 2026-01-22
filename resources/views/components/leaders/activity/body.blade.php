@@ -5,8 +5,10 @@
             <tr>
                 <th scope="col" class="px-4 py-4">#</th>
                 <th scope="col" class="px-4 py-3">Nama Anggota</th>
+                <th scope="col" class="px-4 py-3">Judul Aktivitas</th>
                 <th scope="col" class="px-4 py-3">Detail Aktivitas</th>
-                <th scope="col" class="px-4 py-3">Hari, Tanggal Pengerjaan</th>
+                <th scope="col" class="px-4 py-3">Tanggal Pengerjaan</th>
+                <th scope="col" class="px-4 py-3">Status</th>
                 <th scope="col" class="px-4 py-3">
                     <span class="sr-only">Actions</span>
                 </th>
@@ -40,13 +42,47 @@
                     </div>
                 </td>
                 <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        {{ Str::of($activity->title)->limit(75) ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-2xl">
                         {{ Str::of($activity->description)->limit(150) ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $activity->start_date->format('l, d M Y') ?? 'Tidak tersedia' }}
+                        {{ $activity->start_date->translatedFormat('l, d F Y') ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        @if ( $activity->status === App\Enums\StatusTask::NOT_STARTED )
+                        <!-- Error Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @elseif ( $activity->status === App\Enums\StatusTask::PENDING )
+                        <!-- Warning Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-warning-50 px-2.5 py-0.5 text-sm font-medium text-warning-600 dark:bg-warning-500/15 dark:text-orange-400">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @elseif ( $activity->status === App\Enums\StatusTask::ON_PROGRESS )
+                        <!-- Info Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @else
+                        <!-- Success Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-sm font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @endif
                     </div>
                 </td>
                 <td class="px-6 py-3 flex items-center justify-end">

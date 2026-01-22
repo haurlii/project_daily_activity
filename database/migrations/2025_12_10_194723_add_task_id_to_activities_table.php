@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use App\Enums\StatusTask;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,6 +14,8 @@ return new class extends Migration
     {
         Schema::table('activities', function (Blueprint $table) {
             $table->foreignId('task_id')->nullable()->constrained('tasks')->nullOnDelete();
+            $table->string('title')->nullable();
+            $table->string('status')->default(StatusTask::ON_PROGRESS->value);
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('activities', function (Blueprint $table) {
-            $table->foreignId('task_id')->nullable()->constrained('tasks')->nullOnDelete();
-        });
+        Schema::dropIfExists('activities');
     }
 };

@@ -22,26 +22,26 @@ Route::middleware('auth')->group(function () {
 
         // User
         Route::controller(UserController::class)->group(function () {
-            Route::get('/users', 'index')->name('admin.users.index');
+            Route::get('/users', 'indexSuperAdmin')->name('admin.users.index');
             // Route::get('/users/{user:id}', 'show')->name('admin.users.show');
-            Route::get('/users/excel', 'excel')->name('admin.users.excel');
-            Route::get('/users/pdf', 'pdf')->name('admin.users.pdf');
+            Route::get('/users/excel', 'excelSuperAdmin')->name('admin.users.excel');
+            Route::get('/users/pdf', 'pdfSuperAdmin')->name('admin.users.pdf');
         });
 
         // Task
         Route::controller(TaskController::class)->group(function () {
-            Route::get('/tasks', 'index')->name('admin.tasks.index');
+            Route::get('/tasks', 'indexSuperAdmin')->name('admin.tasks.index');
             // Route::get('/tasks/{task:id}', 'show')->name('admin.tasks.show');
-            Route::get('/tasks/excel', 'excel')->name('admin.tasks.excel');
-            Route::get('/tasks/pdf', 'pdf')->name('admin.tasks.pdf');
+            Route::get('/tasks/excel', 'excelSuperAdmin')->name('admin.tasks.excel');
+            Route::get('/tasks/pdf', 'pdfSuperAdmin')->name('admin.tasks.pdf');
         });
 
         // Activity
         Route::controller(ActivityController::class)->group(function () {
-            Route::get('/activities', 'index')->name('admin.activities.index');
+            Route::get('/activities', 'indexSuperAdmin')->name('admin.activities.index');
             // Route::get('/activities/{activity:id}', 'show')->name('admin.activities.show');
-            Route::get('/activities/excel', 'excel')->name('admin.activities.excel');
-            Route::get('/activities/pdf', 'pdf')->name('admin.activities.pdf');
+            Route::get('/activities/excel', 'excelSuperAdmin')->name('admin.activities.excel');
+            Route::get('/activities/pdf', 'pdfSuperAdmin')->name('admin.activities.pdf');
         });
     });
 
@@ -52,57 +52,57 @@ Route::middleware('auth')->group(function () {
         // User Management
         Route::controller(UserController::class)->group(function () {
             // index
-            Route::get('/users', 'index')->name('leader.users.index');
+            Route::get('/users', 'indexLeader')->name('leader.users.index');
 
             // create & store
-            Route::get('/users/create', 'create')->name('leader.users.create');
-            Route::post('/users/create', 'store')->name('leader.users.store');
+            Route::get('/users/create', 'createLeader')->name('leader.users.create');
+            Route::post('/users/create', 'storeLeader')->name('leader.users.store');
 
             // edit & update
-            Route::get('/users/edit/{user:id}', 'edit')->name('leader.users.edit');
-            Route::patch('/users/edit/{user:id}', 'update')->name('leader.users.update');
+            Route::get('/users/edit/{user:id}', 'editLeader')->name('leader.users.edit');
+            Route::patch('/users/edit/{user:id}', 'updateLeader')->name('leader.users.update');
 
             // delete
-            Route::delete('/users/{user:id}', 'destroy')->name('leader.users.destroy');
+            Route::delete('/users/{user:id}', 'destroyLeader')->name('leader.users.destroy');
 
             // Export
-            Route::get('/users/excel', 'excel')->name('leader.users.excel');
-            Route::get('/users/pdf', 'pdf')->name('leader.users.pdf');
+            Route::get('/users/excel', 'excelLeader')->name('leader.users.excel');
+            Route::get('/users/pdf', 'pdfLeader')->name('leader.users.pdf');
         });
 
         Route::controller(TaskController::class)->group(function () {
             // index
-            Route::get('/tasks', 'index')->name('leader.tasks.index');
+            Route::get('/tasks', 'indexLeader')->name('leader.tasks.index');
 
             // create & store
-            Route::get('/tasks/create', 'create')->name('leader.tasks.create');
-            Route::post('/tasks/create', 'store')->name('leader.tasks.store');
+            Route::get('/tasks/create', 'createLeader')->name('leader.tasks.create');
+            Route::post('/tasks/create', 'storeLeader')->name('leader.tasks.store');
 
             // Export
-            Route::get('/tasks/excel', 'excel')->name('leader.tasks.excel');
+            Route::get('/tasks/excel', 'excelLeader')->name('leader.tasks.excel');
             Route::get('/tasks/pdf', 'pdf')->name('leader.tasks.pdf');
 
             // edit & update
-            Route::get('/tasks/edit/{task:id}', 'edit')->name('leader.tasks.edit');
-            Route::patch('/tasks/edit/{task:id}', 'update')->name('leader.tasks.update');
+            Route::get('/tasks/edit/{task:id}', 'editLeader')->name('leader.tasks.edit');
+            Route::patch('/tasks/edit/{task:id}', 'updateLeader')->name('leader.tasks.update');
 
             // show
-            Route::get('/tasks/{task:id}', 'show')->name('leader.tasks.show');
+            Route::get('/tasks/{task:id}', 'showLeader')->name('leader.tasks.show');
 
             // delete
-            Route::delete('/tasks/{task:id}', 'destroy')->name('leader.tasks.destroy');
+            Route::delete('/tasks/{task:id}', 'destroyLeader')->name('leader.tasks.destroy');
         });
 
         Route::controller(ActivityController::class)->group(function () {
             // index
-            Route::get('/activities', 'index')->name('leader.activities.index');
+            Route::get('/activities', 'indexLeader')->name('leader.activities.index');
 
             // Export
-            Route::get('/activities/excel', 'excel')->name('leader.activities.excel');
-            Route::get('/activities/pdf', 'pdf')->name('leader.activities.pdf');
+            Route::get('/activities/excel', 'excelLeader')->name('leader.activities.excel');
+            Route::get('/activities/pdf', 'pdfLeader')->name('leader.activities.pdf');
 
             // show
-            Route::get('/activities/{activity:id}', 'show')->name('leader.activities.show');
+            Route::get('/activities/{activity:id}', 'showLeader')->name('leader.activities.show');
         });
     });
 
@@ -113,44 +113,52 @@ Route::middleware('auth')->group(function () {
         // Task
         Route::controller(TaskController::class)->group(function () {
             // index
-            Route::get('/tasks', 'index')->name('member.tasks.index');
+            Route::get('/tasks', 'indexMember')->name('member.tasks.index');
 
             // Export
-            Route::get('/tasks/excel', 'excel')->name('member.tasks.excel');
-            Route::get('/tasks/pdf', 'pdf')->name('member.tasks.pdf');
+            Route::get('/tasks/excel', 'excelMember')->name('member.tasks.excel');
+            Route::get('/tasks/pdf', 'pdfMember')->name('member.tasks.pdf');
+
+            Route::post('/tasks/{task:id}/start', 'startActivity')->name('member.tasks.startActivity');
+            Route::patch('/tasks/{task:id}/continue', 'continueActivity')->name('member.tasks.continueActivity');
+            Route::patch('/tasks/{task:id}/end', 'endActivity')->name('member.tasks.endActivity');
 
             // Export
-            Route::get('/tasks/{task:id}', 'show')->name('member.tasks.show');
+            Route::get('/tasks/{task:id}', 'showMember')->name('member.tasks.show');
         });
 
         // Activity
         Route::controller(ActivityController::class)->group(function () {
             // index
-            Route::get('/activities', 'index')->name('member.activities.index');
+            Route::get('/activities', 'indexMember')->name('member.activities.index');
 
             // create & store
-            Route::get('/activities/create', 'create')->name('member.activities.create');
-            Route::post('/activities/create', 'store')->name('member.activities.store');
+            Route::get('/activities/create', 'createMember')->name('member.activities.create');
+            Route::post('/activities/create', 'storeMember')->name('member.activities.store');
 
             // Export
-            Route::get('/activities/excel', 'excel')->name('member.activities.excel');
-            Route::get('/activities/pdf', 'pdf')->name('member.activities.pdf');
-
-            // edit & update
-            Route::get('/activities/edit/{activity:id}', 'edit')->name('member.activities.edit');
-            Route::patch('/activities/edit/{activity:id}', 'update')->name('member.activities.update');
-
+            Route::get('/activities/excel', 'excelMember')->name('member.activities.excel');
+            Route::get('/activities/pdf', 'pdfMember')->name('member.activities.pdf');
             // show
-            Route::get('/activities/{activity:id}', 'show')->name('member.activities.show');
+            Route::get('/activities/{activity:id}', 'showMember')->name('member.activities.show');
 
             // delete
-            Route::delete('/activities/{activity:id}', 'destroy')->name('member.activities.destroy');
+            Route::delete('/activities/{activity:id}', 'destroyMember')->name('member.activities.destroy');
+
+            // edit & update
+            Route::get('/activities/edit/{activity:id}', 'editMember')->name('member.activities.edit');
+            Route::patch('/activities/edit/{activity:id}', 'updateMember')->name('member.activities.update');
+
+            Route::post('/activities/{activity:id}/start', 'startActivity')->name('member.activities.startActivity');
+            Route::patch('/activities/{activity:id}/continue', 'continueActivity')->name('member.activities.continueActivity');
+            Route::patch('/activities/{activity:id}/end', 'endActivity')->name('member.activities.endActivity');
         });
     });
 
     Route::get('/', function () {
-        return view('home');
+        return view('home', ['title' => 'Home']);
     })->name('home');
+
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

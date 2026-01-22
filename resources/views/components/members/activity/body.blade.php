@@ -4,8 +4,10 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-4 py-4">#</th>
+                <th scope="col" class="px-6 py-3">Judul Aktivitas</th>
                 <th scope="col" class="px-6 py-3">Detail Aktivitas</th>
-                <th scope="col" class="px-6 py-3">Hari, Tanggal Pengerjaan</th>
+                <th scope="col" class="px-6 py-3">Tanggal Pengerjaan</th>
+                <th scope="col" class="px-6 py-3">Status</th>
                 <th scope="col" class="px-4 py-3">
                     <span class="sr-only">Actions</span>
                 </th>
@@ -19,13 +21,47 @@
                     {{ $loop->iteration }}
                 </th>
                 <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        {{ Str::of($activity->title)->limit(75) ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-2xl">
                         {{ Str::of($activity->description)->limit(150) ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $activity->start_date->format('l, d F Y') ?? 'Tidak tersedia' }}
+                        {{ $activity->start_date->translatedFormat('d F Y') ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        @if ( $activity->status === App\Enums\StatusTask::NOT_STARTED )
+                        <!-- Error Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @elseif ( $activity->status === App\Enums\StatusTask::PENDING )
+                        <!-- Warning Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-warning-50 px-2.5 py-0.5 text-sm font-medium text-warning-600 dark:bg-warning-500/15 dark:text-orange-400">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @elseif ( $activity->status === App\Enums\StatusTask::ON_PROGRESS )
+                        <!-- Info Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @else
+                        <!-- Success Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-sm font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
+                            {{ $activity->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @endif
                     </div>
                 </td>
                 <td class="px-6 py-3 flex items-center justify-end">
@@ -42,8 +78,14 @@
                     <div id="activity-{{ $activity->id }}-dropdown"
                         class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                         <ul class="py-1 text-sm" aria-labelledby="activity-{{ $activity->id }}-dropdown-button">
+                            <!-- Button View -->
                             <li>
+<<<<<<< HEAD
                                 <button type="button" data-modal-target="fullscreen-modal" data-modal-toggle="fullscreen-modal"
+=======
+                                <button data-modal-target="showActivityModal-{{ $activity->id }}"
+                                    data-modal-toggle="showActivityModal-{{ $activity->id }}"
+>>>>>>> 32e1ca08cdb687da0a11c10087a34b7707c9b7f5
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
                                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none"
                                         xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
@@ -59,6 +101,9 @@
                                     View
                                 </button>
                             </li>
+
+                            <!-- Button Edit Delete -->
+                            @if ( !$activity->task_id )
                             <li>
                                 <a href="{{ route('member.activities.edit', $activity->id) }}"
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
@@ -88,10 +133,187 @@
                                     Delete
                                 </button>
                             </li>
+                            @endif
+
+                            <!-- Start Activity -->
+                            @if ( $activity->status === \App\Enums\StatusTask::NOT_STARTED )
+                            <li>
+                                <form action="{{ route('member.activities.startActivity', $activity->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    <button
+                                        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+                                            <path
+                                                d="M2.95862 13.451C2.68046 12.8479 2.68046 12.1523 2.95862 11.5492C4.53779 8.1253 7.99237 5.75 11.9999 5.75C16.0075 5.75 19.4621 8.12531 21.0413 11.5492C21.3194 12.1523 21.3194 12.8479 21.0413 13.451C19.4621 16.8749 16.0075 19.2502 11.9999 19.2502C7.99237 19.2502 4.53779 16.8749 2.95862 13.451Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M15.625 12.5C15.625 14.502 14.002 16.125 12 16.125C9.99797 16.125 8.375 14.502 8.375 12.5C8.375 10.498 9.99797 8.875 12 8.875C14.002 8.875 15.625 10.498 15.625 12.5Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                        Kerjakan
+                                    </button>
+                                </form>
+                            </li>
+                            @endif
+
+                            <!-- Continue Activity -->
+                            @if ( $activity->status === \App\Enums\StatusTask::PENDING )
+                            <li>
+                                <form action="{{ route('member.activities.continueActivity', $activity->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button
+                                        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+                                            <path
+                                                d="M2.95862 13.451C2.68046 12.8479 2.68046 12.1523 2.95862 11.5492C4.53779 8.1253 7.99237 5.75 11.9999 5.75C16.0075 5.75 19.4621 8.12531 21.0413 11.5492C21.3194 12.1523 21.3194 12.8479 21.0413 13.451C19.4621 16.8749 16.0075 19.2502 11.9999 19.2502C7.99237 19.2502 4.53779 16.8749 2.95862 13.451Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M15.625 12.5C15.625 14.502 14.002 16.125 12 16.125C9.99797 16.125 8.375 14.502 8.375 12.5C8.375 10.498 9.99797 8.875 12 8.875C14.002 8.875 15.625 10.498 15.625 12.5Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                        Lanjutkan
+                                    </button>
+                                </form>
+                            </li>
+                            @endif
+
+                            <!-- End Activity -->
+                            @if ( $activity->status === \App\Enums\StatusTask::ON_PROGRESS )
+                            <li>
+                                <form action="{{ route('member.activities.endActivity', $activity->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button
+                                        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
+                                            <path
+                                                d="M2.95862 13.451C2.68046 12.8479 2.68046 12.1523 2.95862 11.5492C4.53779 8.1253 7.99237 5.75 11.9999 5.75C16.0075 5.75 19.4621 8.12531 21.0413 11.5492C21.3194 12.1523 21.3194 12.8479 21.0413 13.451C19.4621 16.8749 16.0075 19.2502 11.9999 19.2502C7.99237 19.2502 4.53779 16.8749 2.95862 13.451Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M15.625 12.5C15.625 14.502 14.002 16.125 12 16.125C9.99797 16.125 8.375 14.502 8.375 12.5C8.375 10.498 9.99797 8.875 12 8.875C14.002 8.875 15.625 10.498 15.625 12.5Z"
+                                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+
+                                        Kumpulkan
+                                    </button>
+                                </form>
+                            </li>
+                            @endif
                         </ul>
                     </div>
                 </td>
             </tr>
+
+            <!-- Detail Modal -->
+            <div id="showActivityModal-{{ $activity->id }}"
+                class="fixed inset-0 flex items-center justify-center p-5 overflow-y-auto modal z-99999" style="">
+                <div class="modal-close-btn fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"></div>
+                <div data-modal-target="showActivityModal-{{ $activity->id }}"
+                    data-modal-toggle="showActivityModal-{{ $activity->id }}"
+                    class="relative w-full max-w-[1600px] max-h-[1200px] rounded-3xl bg-white p-6 dark:bg-gray-900 lg:p-10">
+                    <!-- close btn -->
+                    <button data-modal-target="showActivityModal-{{ $activity->id }}"
+                        data-modal-toggle="showActivityModal-{{ $activity->id }}"
+                        class="absolute right-3 top-3 z-999 flex h-9.5 w-9.5 items-center justify-center rounded-full bg-gray-100 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white sm:right-6 sm:top-6 sm:h-11 sm:w-11">
+                        <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                d="M6.04289 16.5413C5.65237 16.9318 5.65237 17.565 6.04289 17.9555C6.43342 18.346 7.06658 18.346 7.45711 17.9555L11.9987 13.4139L16.5408 17.956C16.9313 18.3466 17.5645 18.3466 17.955 17.956C18.3455 17.5655 18.3455 16.9323 17.955 16.5418L13.4129 11.9997L17.955 7.4576C18.3455 7.06707 18.3455 6.43391 17.955 6.04338C17.5645 5.65286 16.9313 5.65286 16.5408 6.04338L11.9987 10.5855L7.45711 6.0439C7.06658 5.65338 6.43342 5.65338 6.04289 6.0439C5.65237 6.43442 5.65237 7.06759 6.04289 7.45811L10.5845 11.9997L6.04289 16.5413Z"
+                                fill=""></path>
+                        </svg>
+                    </button>
+
+                    <div>
+                        <h4 class="font-semibold text-gray-800 mb-7 text-title-sm dark:text-white/90">
+                            {{ $activity->title }}
+                        </h4>
+                        <p class="text-sm leading-6 text-gray-500 dark:text-gray-400 overflow-y-auto">
+                            lorem00
+                        </p>
+                        <p class="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                            euismod est quis mauris lacinia pharetra. Sed a ligula ac odio.
+                        </p>
+
+                        <div class="flex items-center justify-end w-full gap-3 mt-8">
+                            <button data-modal-target="showActivityModal-{{ $activity->id }}"
+                                data-modal-toggle="showActivityModal-{{ $activity->id }}" type="button"
+                                class="flex w-full justify-center rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 sm:w-auto">
+                                Close
+                            </button>
+                            <button type="button"
+                                class="flex justify-center w-full px-4 py-3 text-sm font-medium text-white rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600 sm:w-auto">
+                                Save Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{-- <div id="showActivityModal-{{ $activity->id }}"
+                class="fixed top-0 hidden left-0 z-999999 flex h-screen w-full flex-col items-stretch justify-between overflow-x-hidden bg-white p-6 lg:p-10 dark:bg-gray-900"
+                style="">
+                <!-- close btn -->
+                <button data-modal-target="showActivityModal-{{ $activity->id }}"
+                    data-modal-toggle="showActivityModal-{{ $activity->id }}"
+                    class="absolute top-3 right-3 z-999 flex h-9.5 w-9.5 items-center justify-center rounded-full bg-gray-100 text-gray-400 transition-colors hover:bg-gray-200 hover:text-gray-700 sm:top-6 sm:right-6 sm:h-11 sm:w-11 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <svg class="fill-current" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M6.04289 16.5413C5.65237 16.9318 5.65237 17.565 6.04289 17.9555C6.43342 18.346 7.06658 18.346 7.45711 17.9555L11.9987 13.4139L16.5408 17.956C16.9313 18.3466 17.5645 18.3466 17.955 17.956C18.3455 17.5655 18.3455 16.9323 17.955 16.5418L13.4129 11.9997L17.955 7.4576C18.3455 7.06707 18.3455 6.43391 17.955 6.04338C17.5645 5.65286 16.9313 5.65286 16.5408 6.04338L11.9987 10.5855L7.45711 6.0439C7.06658 5.65338 6.43342 5.65338 6.04289 6.0439C5.65237 6.43442 5.65237 7.06759 6.04289 7.45811L10.5845 11.9997L6.04289 16.5413Z"
+                            fill=""></path>
+                    </svg>
+                </button>
+
+                <div class="overflow-y-auto">
+                    <h4 class="text-title-sm mb-7 font-semibold text-gray-800 dark:text-white/90">
+                        {{ $activity->title }}
+                    </h4>
+                    <p class="text-sm leading-6 text-gray-500 dark:text-gray-400">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                        euismod est quis mauris lacinia pharetra. Sed a ligula ac odio
+                        condimentum aliquet a nec nulla. Aliquam bibendum ex sit amet ipsum
+                        rutrum feugiat ultrices enim quam.
+                    </p>
+                    <p class="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                        euismod est quis mauris lacinia pharetra. Sed a ligula ac odio
+                        condimentum aliquet a nec nulla. Aliquam bibendum ex sit amet ipsum
+                        rutrum feugiat ultrices enim quam odio condimentum aliquet a nec nulla
+                        pellentesque euismod est quis mauris lacinia pharetra.
+                    </p>
+                    <p class="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+                        euismod est quis mauris lacinia pharetra.
+                    </p>
+                </div>
+
+                <div class="mt-8 flex w-full items-center justify-end gap-3 pb-16">
+                    <button data-modal-target="showActivityModal-{{ $activity->id }}"
+                        data-modal-toggle="showActivityModal-{{ $activity->id }}" type="button"
+                        class="shadow-theme-xs flex justify-center rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
+                        Close
+                    </button>
+                    <button type="button"
+                        class="bg-brand-500 shadow-theme-xs hover:bg-brand-600 flex justify-center rounded-lg px-4 py-3 text-sm font-medium text-white">
+                        Save Changes
+                    </button>
+                </div>
+            </div> --}}
 
             <!-- Delete Modal -->
             <div id="deleteactivityModal-{{ $activity->id }}"
