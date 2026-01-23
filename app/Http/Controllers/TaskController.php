@@ -140,17 +140,10 @@ class TaskController extends Controller
         return view('member.index-task', ['title' => 'Data Tugas', 'tasks' => $task]);
     }
 
-    // public function createMember() {}
-    // public function storeMember() {}
-
     public function showMember(Task $task)
     {
         return view('member.view-task', ['title' => 'Detail Tugas', 'task' => $task]);
     }
-
-    // public function editMember() {}
-    // public function updateMember() {}
-    // public function destroyMember() {}
 
     public function excelMember()
     {
