@@ -24,7 +24,7 @@ class StoreActivityRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:1500',
+            'description' => 'nullable|string|max:1500',
             'start_date' => 'required|date',
         ];
     }

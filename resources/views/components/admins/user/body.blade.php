@@ -9,9 +9,9 @@
                 <th scope="col" class="px-6 py-3">Alamat</th>
                 <th scope="col" class="px-6 py-3">Kontak</th>
                 <th scope="col" class="px-6 py-3">Divisi</th>
-                <th scope="col" class="px-6 py-3">
+                {{-- <th scope="col" class="px-6 py-3">
                     <span class="sr-only">Actions</span>
-                </th>
+                </th> --}}
             </tr>
         </thead>
         <tbody>
@@ -59,13 +59,25 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 max-w-xl">
+                        @if ($user->division === 'HR')
                         <span
-                            class="flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-xs text-success-600 dark:bg-success-500/15 dark:text-success-500">
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-success-50 px-2.5 py-0.5 text-sm font-medium text-success-600 dark:bg-success-500/15 dark:text-success-500">
                             {{ $user->division ?? 'Tidak tersedia' }}
                         </span>
+                        @elseif ($user->division === 'Finance')
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-warning-50 px-2.5 py-0.5 text-sm font-medium text-warning-600 dark:bg-warning-500/15 dark:text-orange-400">
+                            {{ $user->division ?? 'Tidak tersedia' }}
+                        </span>
+                        @else
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-blue-light-50 px-2.5 py-0.5 text-sm font-medium text-blue-light-500 dark:bg-blue-light-500/15 dark:text-blue-light-500">
+                            {{ $user->division ?? 'Tidak tersedia' }}
+                        </span>
+                        @endif
                     </div>
                 </td>
-                <td class="px-6 py-3 flex items-center justify-end">
+                {{-- <td class="px-6 py-3 flex items-center justify-end">
                     <button id="user-{{ $user->id }}-dropdown-button"
                         data-dropdown-toggle="user-{{ $user->id }}-dropdown"
                         class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
@@ -99,7 +111,7 @@
                             </li>
                         </ul>
                     </div>
-                </td>
+                </td> --}}
             </tr>
 
             @endforeach

@@ -39,7 +39,7 @@
                             </svg>
                         </div>
                         <input id="start_date" datepicker datepicker-format="dd MM yyyy" type="text" name="start_date"
-                            value="{{ old('start_date') ?? \Carbon\Carbon::now()->format('d F Y') }}"
+                            value="{{ old('start_date') ?? \Carbon\Carbon::now()->format('d F Y H:i:s') }}"
                             class="@error('start_date') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
                             placeholder="Pilih tanggal pengerjaan">
                         @error('start_date')

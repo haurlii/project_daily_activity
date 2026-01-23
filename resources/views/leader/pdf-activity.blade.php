@@ -12,7 +12,11 @@
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 Nama Karyawan</th>
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
-                Detail Tugas</th>
+                Judul Aktivitas</th>
+            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
+                Detail Aktivitas</th>
+            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
+                Status</th>
         </tr>
     </thead>
     <tbody>
@@ -28,7 +32,13 @@
                 {{ $activity->memberActivity->name }}
             </td>
             <td align="justify" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
+                {{ $activity->title ?? "Tidak ada" }}
+            </td>
+            <td align="justify" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 {{ $activity->description ?? "Tidak ada" }}
+            </td>
+            <td align="justify" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
+                {{ $activity->status ?? "Tidak ada" }}
             </td>
         </tr>
         @endforeach

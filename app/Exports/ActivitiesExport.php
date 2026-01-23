@@ -30,22 +30,22 @@ class ActivitiesExport implements FromQuery, WithMapping, WithHeadings
     public function headings(): array
     {
         if (Auth::user()->role == 'SuperAdmin') {
-            return ['Tanggal Aktivitas', 'Nama Karyawan', 'Divisi', 'Tugas'];
+            return ['Tanggal Aktivitas', 'Nama Karyawan', 'Divisi', 'Judul Aktivitas', 'Detail Aktivitas', 'Status'];
         } elseif (Auth::user()->role == 'Leader') {
-            return ['Tanggal Aktivitas', 'Nama Karyawan', 'Tugas'];
+            return ['Tanggal Aktivitas', 'Nama Karyawan', 'Judul Aktivitas', 'Detail Aktivitas', 'Status'];
         } else {
-            return ['Tanggal Aktivitas', 'Tugas'];
+            return ['Tanggal Aktivitas', 'Judul Aktivitas', 'Detail Aktivitas', 'Status'];
         }
     }
 
     public function map($activity): array
     {
         if (Auth::user()->role == 'SuperAdmin') {
-            return [$activity->start_date->translatedFormat('d F Y'), $activity->memberActivity->name, $activity->memberActivity->division, $activity->description];
+            return [$activity->start_date->translatedFormat('d F Y'), $activity->memberActivity->name, $activity->memberActivity->division, $activity->title, $activity->description, $activity->status];
         } elseif (Auth::user()->role == 'Leader') {
-            return [$activity->start_date->translatedFormat('d F Y'), $activity->memberActivity->name, $activity->description];
+            return [$activity->start_date->translatedFormat('d F Y'), $activity->memberActivity->name, $activity->title, $activity->description, $activity->status];
         } else {
-            return [$activity->start_date->translatedFormat('d F Y'), $activity->description];
+            return [$activity->start_date->translatedFormat('d F Y'), $activity->title, $activity->description, $activity->status];
         }
     }
 }

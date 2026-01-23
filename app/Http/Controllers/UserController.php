@@ -61,7 +61,7 @@ class UserController extends Controller
     public function destroySuperAdmin(User $user)
     {
         $user->delete();
-        return Redirect::route('admin.tasks.index')->with(['message' => 'Data Berhasil Di Hapus']);
+        return Redirect::route('admin.users.index')->with(['message' => 'Data Berhasil Di Hapus']);
     }
 
     public function excelSuperAdmin()
@@ -109,6 +109,9 @@ class UserController extends Controller
     public function updateLeader(LeaderUpdateUserRequest $request, User $user)
     {
         $edit_user = $request->validated();
+        if ($edit_user['address'] === null) {
+            $edit_user['address'] = $user->address;
+        }
         $edit_user['division'] = $user->division;
         $user->update($edit_user);
         return Redirect::route('leader.users.index')->with('message', 'Data Berhasil Ditambahkan');
@@ -117,7 +120,7 @@ class UserController extends Controller
     public function destroyLeader(User $user)
     {
         $user->delete();
-        return Redirect::route('leader.tasks.index')->with(['message' => 'Data Berhasil Di Hapus']);
+        return Redirect::route('leader.users.index')->with(['message' => 'Data Berhasil Di Hapus']);
     }
 
     public function excelLeader()

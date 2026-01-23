@@ -101,7 +101,7 @@
                     <div id="task-{{ $task->id }}-dropdown"
                         class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                         <ul class="py-1 text-sm" aria-labelledby="task-{{ $task->id }}-dropdown-button">
-                            <li>
+                            {{-- <li>
                                 <a href="{{ route('member.tasks.show', $task->id) }}"
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
                                     <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none"
@@ -118,7 +118,7 @@
 
                                     View
                                 </a>
-                            </li>
+                            </li> --}}
                             @if ( $task->status === \App\Enums\StatusTask::NOT_STARTED )
                             <li>
                                 <form action="{{ route('member.tasks.startActivity', $task->id) }}" method="POSt">

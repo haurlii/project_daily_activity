@@ -20,7 +20,7 @@ class Activity extends Model
     protected function casts(): array
     {
         return [
-            'start_date' => 'date',
+            'start_date' => 'datetime',
             'status' => StatusTask::class,
         ];
     }

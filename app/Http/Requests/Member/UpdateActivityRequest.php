@@ -23,7 +23,8 @@ class UpdateActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'description' => 'required|string|max:1000',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
             'start_date' => 'required|date',
         ];
     }
@@ -31,6 +32,7 @@ class UpdateActivityRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'title.required' => 'Judul tidak boleh kosong',
             'description.required' => 'Detail aktivitas tidak boleh kosong',
             'description.max' => 'Detail aktivitas terlalu panjang',
             'start_date.required' => 'Tanggal pengerjaan tidak boleh kosong',

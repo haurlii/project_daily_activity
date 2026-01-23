@@ -7,6 +7,7 @@
                 <th scope="col" class="px-6 py-3">Judul Aktivitas</th>
                 <th scope="col" class="px-6 py-3">Detail Aktivitas</th>
                 <th scope="col" class="px-6 py-3">Tanggal Pengerjaan</th>
+                <th scope="col" class="px-6 py-3">Waktu</th>
                 <th scope="col" class="px-6 py-3">Status</th>
                 <th scope="col" class="px-4 py-3">
                     <span class="sr-only">Actions</span>
@@ -33,6 +34,11 @@
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
                         {{ $activity->start_date->translatedFormat('d F Y') ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        {{ \Carbon\Carbon::parse($activity->created_at)->translatedFormat('H:i') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
@@ -79,7 +85,7 @@
                         class="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                         <ul class="py-1 text-sm" aria-labelledby="activity-{{ $activity->id }}-dropdown-button">
                             <!-- Button View -->
-                            <li>
+                            {{-- <li>
                                 <button data-modal-target="showActivityModal-{{ $activity->id }}"
                                     data-modal-toggle="showActivityModal-{{ $activity->id }}"
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
@@ -97,7 +103,7 @@
 
                                     View
                                 </button>
-                            </li>
+                            </li> --}}
 
                             <!-- Button Edit Delete -->
                             @if ( !$activity->task_id )
@@ -217,7 +223,7 @@
             </tr>
 
             <!-- Detail Modal -->
-            <div id="showActivityModal-{{ $activity->id }}"
+            {{-- <div id="showActivityModal-{{ $activity->id }}"
                 class="fixed inset-0 flex items-center justify-center p-5 overflow-y-auto modal z-99999" style="">
                 <div class="modal-close-btn fixed inset-0 h-full w-full bg-gray-400/50 backdrop-blur-[32px]"></div>
                 <div data-modal-target="showActivityModal-{{ $activity->id }}"
@@ -260,9 +266,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             {{-- <div id="showActivityModal-{{ $activity->id }}"
-                class="fixed top-0 hidden left-0 z-999999 flex h-screen w-full flex-col items-stretch justify-between overflow-x-hidden bg-white p-6 lg:p-10 dark:bg-gray-900"
+                class="fixed top-0 hidden left-0 z-999999 flex h-screen w-full flex-col items-start justify-start overflow-x-hidden bg-white p-6 lg:p-10 dark:bg-gray-900"
                 style="">
                 <!-- close btn -->
                 <button data-modal-target="showActivityModal-{{ $activity->id }}"
@@ -280,22 +286,27 @@
                     <h4 class="text-title-sm mb-7 font-semibold text-gray-800 dark:text-white/90">
                         {{ $activity->title }}
                     </h4>
-                    <p class="text-sm leading-6 text-gray-500 dark:text-gray-400">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-                        euismod est quis mauris lacinia pharetra. Sed a ligula ac odio
-                        condimentum aliquet a nec nulla. Aliquam bibendum ex sit amet ipsum
-                        rutrum feugiat ultrices enim quam.
+                    <div class="mt-6 flex items-center justify-between gap-3 w-full">
+                        <div class="flex items-center flex-row gap-3 text-left">
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ $activity->user_id }}
+                            </p>
+                            <div class="hidden h-3.5 w-px bg-gray-300 xl:block dark:bg-gray-700"></div>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">
+                                {{ $activity->user_id }}
+                            </p>
+                        </div>
+                        <p class="text-xs leading-6 text-gray-500 dark:text-gray-400">
+                            {{ $activity->start_date }}
+                        </p>
+                    </div>
+                    <p class="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, soluta voluptate ullam et nemo
+                        unde obcaecati cupiditate porro culpa in consequatur nihil eaque ipsa eveniet. Eos placeat
                     </p>
                     <p class="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-                        euismod est quis mauris lacinia pharetra. Sed a ligula ac odio
-                        condimentum aliquet a nec nulla. Aliquam bibendum ex sit amet ipsum
-                        rutrum feugiat ultrices enim quam odio condimentum aliquet a nec nulla
-                        pellentesque euismod est quis mauris lacinia pharetra.
-                    </p>
-                    <p class="mt-5 text-sm leading-6 text-gray-500 dark:text-gray-400">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-                        euismod est quis mauris lacinia pharetra.
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, soluta voluptate ullam et nemo
+                        unde obcaecati cupiditate porro culpa in consequatur nihil eaque ipsa eveniet. Eos placeat
                     </p>
                 </div>
 

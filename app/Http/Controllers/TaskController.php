@@ -98,6 +98,9 @@ class TaskController extends Controller
     public function updateLeader(UpdateTaskRequest $request, Task $task)
     {
         $new_task = $request->validated();
+        if ($new_task['description'] === null) {
+            $new_task['description'] = $task->description;
+        }
         $new_task['leader_id'] = Auth::user()->id;
         $new_task['start_date'] = Carbon::parse($new_task['start_date'])->format('Y-m-d');
         $new_task['end_date'] = Carbon::parse($new_task['end_date'])->format('Y-m-d');

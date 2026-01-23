@@ -37,6 +37,7 @@ class TasksExport implements FromQuery, WithMapping, WithHeadings
                 'Detail Tugas',
                 'Tanggal Pengerjaan',
                 'Batas Pengerjaan',
+                'Status',
             ];
         } elseif (Auth::user()->role == 'Leader') {
             return [
@@ -45,6 +46,7 @@ class TasksExport implements FromQuery, WithMapping, WithHeadings
                 'Detail Tugas',
                 'Tanggal Pengerjaan',
                 'Batas Pengerjaan',
+                'Status',
             ];
         } else {
             // Member
@@ -54,6 +56,7 @@ class TasksExport implements FromQuery, WithMapping, WithHeadings
                 'Detail Tugas',
                 'Tanggal Pengerjaan',
                 'Batas Pengerjaan',
+                'Status',
             ];
         }
     }
@@ -69,6 +72,7 @@ class TasksExport implements FromQuery, WithMapping, WithHeadings
                 $task->description,
                 $task->start_date->translatedFormat('d F Y'),
                 $task->end_date->translatedFormat('d F Y'),
+                $task->status,
             ];
         } elseif (Auth::user()->role == 'Leader') {
             return [
@@ -77,6 +81,7 @@ class TasksExport implements FromQuery, WithMapping, WithHeadings
                 $task->description,
                 $task->start_date->translatedFormat('d F Y'),
                 $task->end_date->translatedFormat('d F Y'),
+                $task->status,
             ];
         } else {
             // Member
@@ -86,6 +91,7 @@ class TasksExport implements FromQuery, WithMapping, WithHeadings
                 $task->description,
                 $task->start_date->translatedFormat('d F Y'),
                 $task->end_date->translatedFormat('d F Y'),
+                $task->status,
             ];
         }
     }

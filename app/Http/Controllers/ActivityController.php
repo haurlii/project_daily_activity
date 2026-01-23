@@ -114,12 +114,9 @@ class ActivityController extends Controller
     public function storeMember(StoreActivityRequest $request)
     {
         $new_activity = $request->validated();
-
         $new_activity['user_id'] = Auth::user()->id;
         $new_activity['start_date'] = Carbon::parse($new_activity['start_date'])->format('Y-m-d');
-
         Activity::create($new_activity);
-
         return Redirect::route('member.activities.index')->with('message', 'Data Berhasil Ditambahkan');
     }
 
@@ -136,7 +133,9 @@ class ActivityController extends Controller
     public function updateMember(UpdateActivityRequest $request, Activity $activity)
     {
         $new_activity = $request->validated();
-
+        if ($new_activity['description'] === null) {
+            $new_activity['description'] = $activity->description;
+        }
         $new_activity['user_id'] = Auth::user()->id;
         $new_activity['start_date'] = Carbon::parse($new_activity['start_date'])->format('Y-m-d');
 

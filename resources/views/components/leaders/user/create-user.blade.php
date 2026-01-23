@@ -95,12 +95,11 @@
                             <option value="" selected="" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400">
                                 --Silahkan Pilih Nama Anggota--
                             </option>
-                            @foreach ($divisions as $division)
-                            <option value="{{ $division }}" class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
-                                @selected( old('division')==$division)>
-                                {{ $division }}
+                            <option value="{{ Auth::user()->division }}"
+                                class="text-gray-700 dark:bg-gray-900 dark:text-gray-400" @selected( (old('division') ??
+                                Auth::user()->division) == Auth::user()->division )>
+                                {{ Auth::user()->division }}
                             </option>
-                            @endforeach
                         </select>
                         <span
                             class="pointer-events-none absolute top-1/2 right-4 z-30 -translate-y-1/2 text-gray-700 dark:text-gray-400">

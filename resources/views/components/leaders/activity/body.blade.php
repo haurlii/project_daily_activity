@@ -4,14 +4,15 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-4 py-4">#</th>
-                <th scope="col" class="px-4 py-3">Nama Anggota</th>
-                <th scope="col" class="px-4 py-3">Judul Aktivitas</th>
-                <th scope="col" class="px-4 py-3">Detail Aktivitas</th>
-                <th scope="col" class="px-4 py-3">Tanggal Pengerjaan</th>
-                <th scope="col" class="px-4 py-3">Status</th>
-                <th scope="col" class="px-4 py-3">
+                <th scope="col" class="px-6 py-3">Nama Anggota</th>
+                <th scope="col" class="px-6 py-3">Judul Aktivitas</th>
+                <th scope="col" class="px-6 py-3">Detail Aktivitas</th>
+                <th scope="col" class="px-6 py-3">Tanggal Pengerjaan</th>
+                <th scope="col" class="px-6 py-3">Waktu</th>
+                <th scope="col" class="px-6 py-3">Status</th>
+                {{-- <th scope="col" class="px-6 py-3">
                     <span class="sr-only">Actions</span>
-                </th>
+                </th> --}}
             </tr>
         </thead>
         <tbody>
@@ -53,7 +54,12 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $activity->start_date->translatedFormat('l, d F Y') ?? 'Tidak tersedia' }}
+                        {{ $activity->start_date->translatedFormat('d F Y') ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        {{ \Carbon\Carbon::parse($activity->created_at)->translatedFormat('H:i') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
@@ -85,7 +91,7 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-3 flex items-center justify-end">
+                {{-- <td class="px-6 py-3 flex items-center justify-end">
                     <button id="activity-{{ $activity->id }}-dropdown-button"
                         data-dropdown-toggle="activity-{{ $activity->id }}-dropdown"
                         class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
@@ -119,7 +125,7 @@
                             </li>
                         </ul>
                     </div>
-                </td>
+                </td> --}}
             </tr>
             @endforeach
         </tbody>

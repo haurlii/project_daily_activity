@@ -17,6 +17,8 @@
                 Tanggal Pengerjaan</th>
             <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 Batas Pengerjaan</th>
+            <th align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
+                Status</th>
         </tr>
     </thead>
     <tbody>
@@ -39,6 +41,9 @@
             </td>
             <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
                 {{ $task->end_date->translatedFormat('d F Y') }}
+            </td>
+            <td align="center" style="padding-left: 10px; padding-right: 10px; padding-top: 6px; padding-bottom: 6px;">
+                {{ $task->status ?? "Tidak ada" }}
             </td>
         </tr>
         @endforeach
