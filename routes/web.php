@@ -120,6 +120,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/tasks/pdf', 'pdfMember')->name('member.tasks.pdf');
 
             Route::post('/tasks/{task:id}/start', 'startActivity')->name('member.tasks.startActivity');
+            Route::post('/tasks/{task:id}/start', 'pendingActivity')->name('member.tasks.pendingActivity');
             Route::patch('/tasks/{task:id}/continue', 'continueActivity')->name('member.tasks.continueActivity');
             Route::patch('/tasks/{task:id}/end', 'endActivity')->name('member.tasks.endActivity');
 

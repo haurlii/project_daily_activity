@@ -1,5 +1,3 @@
-@props(['assignedStatus', 'submitted'])
-
 <article
     class="flex items-center gap-5 rounded-2xl border border-gray-300 bg-white p-4 dark:border-gray-800 dark:bg-white/3">
     <div
@@ -11,15 +9,12 @@
         </svg>
     </div>
     <div>
-        <h4 class="text-2xl font-bold @if ($assignedStatus==='Assigned')
-        text-green-600 dark:text-green/90
-        @else
-        text-red-600 dark:text-red/90
-        @endif
-        ">
+        <h4 @class([ 'text-2xl font-bold' , 'text-green-600 dark:text-green-600'=> $assignedStatus === 'Assigned',
+            'text-red-600 dark:text-red-600' => $assignedStatus === 'Unassigned',
+            ])>
             {{ $assignedStatus }}
         </h4>
-        <div class="flex items-center justify-start gap-3">
+        <div class=" flex items-center justify-start gap-3">
             <div>
                 <p class="text-theme-sm text-gray-700 dark:text-gray-400">
                     User
