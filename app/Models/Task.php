@@ -15,6 +15,7 @@ class Task extends Model
         'title',
         'description',
         'start_date',
+        'due_date',
         'end_date',
         'status',
     ];
@@ -22,8 +23,9 @@ class Task extends Model
     protected function casts(): array
     {
         return [
-            'start_date' => 'date',
-            'end_date' => 'date',
+            'start_date' => 'dateTime',
+            'due_date' => 'dateTime',
+            'end_date' => 'dateTime',
             'status' => StatusTask::class,
         ];
     }

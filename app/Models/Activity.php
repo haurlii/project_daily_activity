@@ -12,6 +12,7 @@ class Activity extends Model
         'task_id',
         'user_id',
         'start_date',
+        'end_date',
         'title',
         'description',
         'status',
@@ -21,6 +22,7 @@ class Activity extends Model
     {
         return [
             'start_date' => 'datetime',
+            'end_date' => 'datetime',
             'status' => StatusTask::class,
         ];
     }

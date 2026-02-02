@@ -9,6 +9,7 @@
                 <th scope="col" class="px-6 py-3">Detail Tugas</th>
                 <th scope="col" class="px-6 py-3 whitespace-nowrap">Tanggal Pengerjaan</th>
                 <th scope="col" class="px-6 py-3 whitespace-nowrap">Batas Pengerjaan</th>
+                <th scope="col" class="px-6 py-3 whitespace-nowrap">Tanggal Pengumpulan</th>
                 <th scope="col" class="px-6 py-3">Status</th>
                 <th scope="col" class="px-4 py-3">
                     <span class="sr-only">Actions</span>
@@ -26,7 +27,7 @@
                     <div class="flex items-center gap-3 mr-3 whitespace-nowrap max-w-2xl">
                         {{-- <img src="{{ $task->avatar ? asset('storage/' . $task->avatar) :
                                     asset('assets/images/user/user-default.png') }}" alt="{{ $task->name }}"
-                            class="h-8 w-8 mr-3 rounded-full"> --}}
+                        class="h-8 w-8 mr-3 rounded-full"> --}}
                         <div class="w-10 h-10 overflow-hidden rounded-full">
                             <img src="{{ asset('assets/images/user/user-default.png') }}"
                                 alt="{{ $task->memberTask->name }}">
@@ -59,12 +60,23 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $task->end_date->format('d F Y') ?? 'Tidak tersedia' }}
+                        {{ $task->due_date->format('d F Y, H:i') ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        {{ $task->end_date->format('d F Y, H:i') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
                         @if ( $task->status === App\Enums\StatusTask::NOT_STARTED )
+                        <!-- Error Badge-->
+                        <span
+                            class="inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
+                            {{ $task->status ?? 'Tidak tersedia' }}
+                        </span>
+                        @elseif ( $task->status === App\Enums\StatusTask::LATE )
                         <!-- Error Badge-->
                         <span
                             class="inline-flex items-center justify-center gap-1 rounded-full bg-error-50 px-2.5 py-0.5 text-sm font-medium text-error-600 dark:bg-error-500/15 dark:text-error-500">
@@ -107,21 +119,22 @@
                         <ul class="py-1 text-sm" aria-labelledby="task-{{ $task->id }}-dropdown-button">
                             {{-- <li>
                                 <a href="{{ route('leader.tasks.show', $task->id) }}"
-                                    class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
-                                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg" transform="rotate(0 0 0)">
-                                        <path
-                                            d="M2.95862 13.451C2.68046 12.8479 2.68046 12.1523 2.95862 11.5492C4.53779 8.1253 7.99237 5.75 11.9999 5.75C16.0075 5.75 19.4621 8.12531 21.0413 11.5492C21.3194 12.1523 21.3194 12.8479 21.0413 13.451C19.4621 16.8749 16.0075 19.2502 11.9999 19.2502C7.99237 19.2502 4.53779 16.8749 2.95862 13.451Z"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path
-                                            d="M15.625 12.5C15.625 14.502 14.002 16.125 12 16.125C9.99797 16.125 8.375 14.502 8.375 12.5C8.375 10.498 9.99797 8.875 12 8.875C14.002 8.875 15.625 10.498 15.625 12.5Z"
-                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
+                            class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600
+                            dark:hover:text-white text-gray-700 dark:text-gray-200">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                transform="rotate(0 0 0)">
+                                <path
+                                    d="M2.95862 13.451C2.68046 12.8479 2.68046 12.1523 2.95862 11.5492C4.53779 8.1253 7.99237 5.75 11.9999 5.75C16.0075 5.75 19.4621 8.12531 21.0413 11.5492C21.3194 12.1523 21.3194 12.8479 21.0413 13.451C19.4621 16.8749 16.0075 19.2502 11.9999 19.2502C7.99237 19.2502 4.53779 16.8749 2.95862 13.451Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M15.625 12.5C15.625 14.502 14.002 16.125 12 16.125C9.99797 16.125 8.375 14.502 8.375 12.5C8.375 10.498 9.99797 8.875 12 8.875C14.002 8.875 15.625 10.498 15.625 12.5Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
 
-                                    View
-                                </a>
+                            View
+                            </a>
                             </li> --}}
                             @if ( $task->status !== App\Enums\StatusTask::SUCCESS )
                             <li>

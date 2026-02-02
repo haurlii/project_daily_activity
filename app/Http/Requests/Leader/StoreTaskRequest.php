@@ -28,6 +28,7 @@ class StoreTaskRequest extends FormRequest
             'description' => 'nullable|string|max:1000',
             'start_date' => 'required|date',
             'end_date' => 'required|date',
+            'end_time' => 'required',
 
         ];
     }
@@ -41,6 +42,7 @@ class StoreTaskRequest extends FormRequest
             'description.max' => 'Deskripsi tidak boleh lebih dari 1000 karakter',
             'start_date.required' => 'Tanggal mulai tidak boleh kosong',
             'end_date.required' => 'Tanggal selesai tidak boleh kosong',
+            'end_time.required' => 'Waktu selesai tidak boleh kosong',
         ];
     }
 }
