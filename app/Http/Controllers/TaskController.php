@@ -75,8 +75,15 @@ class TaskController extends Controller
     {
         $new_task = $request->validated();
         $new_task['leader_id'] = Auth::user()->id;
-        $new_task['start_date'] = Carbon::now()->format('Y-m-d H:i');
-        $new_task['end_date'] = Carbon::parse($new_task['end_date'])->format('Y-m-d') . ' ' . Carbon::parse($new_task['end_time'])->format('H:i');
+
+        $startDate = Carbon::parse($new_task['start_date']);
+        [$sh, $sm] = explode(':', $new_task['start_time']);
+        $new_task['start_date'] = $startDate->setTime((int)$sh, (int)$sm);
+
+        $endDate = Carbon::parse($new_task['end_date']);
+        [$eh, $em] = explode(':', $new_task['end_time']);
+        $new_task['end_date'] = $endDate->setTime((int)$eh, (int)$em);
+
         // $check = Activity::where(['user_id' => $new_task['member_id'], 'status' => StatusTask::ON_PROGRESS->value])->whereNull('task_id')->first();
         // dd($check);
         // dd($new_task['member_id']);

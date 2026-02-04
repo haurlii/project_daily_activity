@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
 
+    if (!searchInput || !searchButton) {
+        return;
+    }
+
     // Function to focus the search input
     function focusSearchInput() {
         searchInput.focus();

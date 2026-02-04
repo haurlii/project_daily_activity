@@ -23,9 +23,9 @@ class Task extends Model
     protected function casts(): array
     {
         return [
-            'start_date' => 'dateTime',
-            'due_date' => 'dateTime',
-            'end_date' => 'dateTime',
+            'start_date' => 'datetime',
+            'due_date' => 'datetime',
+            'end_date' => 'datetime',
             'status' => StatusTask::class,
         ];
     }

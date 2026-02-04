@@ -21,10 +21,10 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
         // cek apakah input berupa email atau username
-        $fieldType = filter_var($request->user_cred, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $fieldType = filter_var($credentials['user_cred'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
 
-        if (Auth::attempt([$fieldType => $request->user_cred, 'password' => $request->password])) {
+        if (Auth::attempt([$fieldType => $credentials['user_cred'], 'password' => $credentials['password']])) {
             $request->session()->regenerate();
 
             if (Auth::user()->role === 'SuperAdmin') {

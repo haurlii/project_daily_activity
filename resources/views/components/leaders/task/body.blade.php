@@ -55,17 +55,38 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $task->start_date->format('d F Y') ?? 'Tidak tersedia' }}
-                    </div>
-                </td>
-                <td class="px-6 py-3">
-                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $task->due_date->format('d F Y, H:i') ?? 'Tidak tersedia' }}
+                        {{ $task->start_date->format('d F Y, H:i') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
                         {{ $task->end_date->format('d F Y, H:i') ?? 'Tidak tersedia' }}
+                    </div>
+                </td>
+                <td class="px-6 py-3">
+                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                        <?php
+                        switch ($task->status) {
+                            case App\Enums\StatusTask::SUCCESS:
+                                echo $task->submitted_at->format('d F Y, H:i');
+                                break;
+                            case App\Enums\StatusTask::LATE:
+                                echo $task->submitted_at->format('d F Y, H:i');
+                                break;
+                            case App\Enums\StatusTask::PENDING:
+                                echo 'Menunggu peninjauan';
+                                break;
+                            case App\Enums\StatusTask::ON_PROGRESS:
+                                echo 'Sedang dikerjakan';
+                                break;
+                            case App\Enums\StatusTask::NOT_STARTED:
+                                echo 'Belum mulai dikerjakan';
+                                break;
+                            default:
+                                echo 'Tidak tersedia';
+                                break;
+                        }
+                        ?>
                     </div>
                 </td>
                 <td class="px-6 py-3">

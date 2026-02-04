@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('description', 1500)->nullable();
             $table->dateTime('start_date');
-            $table->dateTime('due_date');
+            $table->dateTime('due_date')->nullable();
             $table->timestamps();
         });
     }
