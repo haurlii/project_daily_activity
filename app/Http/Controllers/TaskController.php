@@ -83,10 +83,6 @@ class TaskController extends Controller
         $endDate = Carbon::parse($new_task['end_date']);
         [$eh, $em] = explode(':', $new_task['end_time']);
         $new_task['end_date'] = $endDate->setTime((int)$eh, (int)$em);
-
-        // $check = Activity::where(['user_id' => $new_task['member_id'], 'status' => StatusTask::ON_PROGRESS->value])->whereNull('task_id')->first();
-        // dd($check);
-        // dd($new_task['member_id']);
         Task::create($new_task);
         return Redirect::route('leader.tasks.index')->with('message', 'Data Berhasil Ditambahkan');
     }
