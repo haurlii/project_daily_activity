@@ -42,7 +42,7 @@
                         Tugas
                     </label>
                     <input type="text" name="title" id="title" value="{{ old('title') ?? $task->title }}"
-                        placeholder="Masukan tugas"
+                        placeholder="Masukan judul tugas"
                         class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                     @error('title')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
@@ -53,16 +53,15 @@
                     <label for="description" class=" mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Detail Tugas
                     </label>
-                    <textarea placeholder="{{ old('description') ?? $task->description }}" type="text" rows="6"
-                        name="description" id="description" autocomplete="off"
-                        value="{{ old('description') ?? $task->description }}"
-                        class="@error('description') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror  dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('description') }}</textarea>
+                    <textarea placeholder="Deskripsikan tugas yang anda berikan" type="text" rows="6" name="description"
+                        id="description" autocomplete="off"
+                        class="@error('description') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror  dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('description', $task->description) }}</textarea>
                     @error('description')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <div class="w-full px-2.5 xl:w-1/2">
+                <div class="w-full px-2.5 xl:w-2/6">
                     <label for="start_date" class=" mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Tanggal Pengerjaan
                     </label>
@@ -75,13 +74,34 @@
                             </svg>
                         </div>
                         <input id="start_date" datepicker datepicker-format="dd MM yyyy" type="text" name="start_date"
-                            value="{{ old('start_date') ?? $task->start_date->format('d F Y') }}"
+                            value="{{ old('start_date', $task->start_date->format('d F Y')) }}"
                             class="@error('start_date') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
                             placeholder="Pilih tanggal pengerjaan">
                     </div>
                 </div>
 
-                <div class="w-full px-2.5 xl:w-1/2">
+                <div class="w-full px-2.5 xl:w-1/6">
+                    <label for="start_time"
+                        class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Jam
+                        Mulai</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                            <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </div>
+                        <input type="time" id="start_time" name="start_time"
+                            class="@error('start_time') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-none px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
+                            value="{{ old('start_time', $task->start_date->format('H:i')) }}" required />
+                    </div>
+                    @error('start_time')
+                    <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="w-full px-2.5 xl:w-2/6">
                     <label for="end_date" class=" mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
                         Batas Pengerjaan
                     </label>
@@ -94,10 +114,30 @@
                             </svg>
                         </div>
                         <input id="end_date" datepicker datepicker-format="dd MM yyyy" type="text" name="end_date"
-                            value="{{ old('end_date') ?? $task->end_date->format('d F Y') }}"
+                            value="{{ old('end_date',$task->end_date->format('d F Y')) }}"
                             class="@error('end_date') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
                             placeholder="Pilih batas pengerjaan">
                     </div>
+                </div>
+
+                <div class="w-full px-2.5 xl:w-1/6">
+                    <label for="end_time" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">Jam
+                        Selesai</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
+                            <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                            </svg>
+                        </div>
+                        <input type="time" id="end_time" name="end_time"
+                            class="@error('end_time') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-none px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
+                            value="{{ old('end_time', $task->end_date->format('H:i')) }}" required />
+                    </div>
+                    @error('end_time')
+                    <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="w-full px-2.5">

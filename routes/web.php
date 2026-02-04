@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DashboardController;
 
@@ -155,8 +156,14 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/', function () {
-        return view('home', ['title' => 'Home']);
-    })->name('home');
+        if (Auth::user()->role === 'SuperAdmin') {
+            return Redirect::route('admin.indexAdmin');
+        } elseif (Auth::user()->role === 'Leader') {
+            return Redirect::route('leader.indexLeader');
+        } elseif (Auth::user()->role === 'Member') {
+            return Redirect::route('member.indexMember');
+        }
+    });
 
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

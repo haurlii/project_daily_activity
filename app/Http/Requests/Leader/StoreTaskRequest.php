@@ -26,11 +26,10 @@ class StoreTaskRequest extends FormRequest
             'member_id' => 'required|integer|exists:users,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string|max:1000',
-            'start_date' => 'required|date',
+            'start_date' => ['required', 'date', 'after_or_equal:today'],
+            'end_date' => 'required|date|after_or_equal:start_date',
             'start_time' => 'required|date_format:H:i',
-            'end_date' => 'required|date',
             'end_time' => 'required|date_format:H:i',
-
         ];
     }
 
@@ -43,6 +42,8 @@ class StoreTaskRequest extends FormRequest
             'description.max' => 'Deskripsi tidak boleh lebih dari 1000 karakter',
             'start_date.required' => 'Tanggal mulai tidak boleh kosong',
             'end_date.required' => 'Tanggal selesai tidak boleh kosong',
+            'start_date.after_or_equal' => 'Tanggal mulai tidak boleh kurang dari waktu sekarang.',
+            'end_date.after_or_equal'   => 'Tanggal selesai tidak boleh kurang dari tanggal mulai.',
             'start_time.required' => 'Waktu mulai tidak boleh kosong',
             'end_time.required' => 'Waktu selesai tidak boleh kosong',
         ];

@@ -196,10 +196,10 @@ class ActivityController extends Controller
 
     public function endActivity(Activity $activity)
     {
-        $activity->update(['status' => StatusTask::SUCCESS->value]);
+        $activity->update(['status' => StatusTask::SUCCESS->value, 'end_date' => Carbon::now(),]);
 
         if ($activity->task_id) {
-            $activity->task->update(['status' => StatusTask::SUCCESS->value]);
+            $activity->task->update(['status' => StatusTask::SUCCESS->value, 'due_date' => Carbon::now(),]);
         }
 
         return Redirect::route('member.activities.index')->with('message', 'Data Berhasil Diubah');

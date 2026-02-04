@@ -157,7 +157,9 @@
                             View
                             </a>
                             </li> --}}
-                            @if ( $task->status !== App\Enums\StatusTask::SUCCESS )
+                            @if ( $task->status !== App\Enums\StatusTask::SUCCESS || $task->status !==
+                            App\Enums\StatusTask::PENDING || $task->status !== App\Enums\StatusTask::ON_PROGRESS ||
+                            $task->status !== App\Enums\StatusTask::CHECKED )
                             <li>
                                 <a href="{{ route('leader.tasks.edit', $task->id) }}"
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">

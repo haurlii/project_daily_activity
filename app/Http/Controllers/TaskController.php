@@ -95,6 +95,15 @@ class TaskController extends Controller
     public function editLeader(Task $task)
     {
         $member = User::where(['division' => Auth::user()->division, 'role' => 'Member'])->orderBy('name', 'asc')->get();
+
+        if ($task->memberTask->division !== Auth::user()->division) {
+            return Redirect::route('leader.tasks.index')->with('error', 'Tidak dapat mengedit tugas diluar divisi Anda.');
+        }
+
+        if ($task->status === StatusTask::SUCCESS->value || $task->status === StatusTask::CHECKED->value || $task->status === StatusTask::ON_PROGRESS->value || $task->status === StatusTask::PENDING->value) {
+            return Redirect::route('leader.tasks.index')->with('error', 'Tugas yang sudah tidak dapat diedit.');
+        }
+
         return view('leader.edit-task', ['title' => 'Edit Tugas', 'task' => $task, 'members' => $member]);
     }
 
@@ -105,16 +114,21 @@ class TaskController extends Controller
             $new_task['description'] = $task->description;
         }
         $new_task['leader_id'] = Auth::user()->id;
-        $new_task['start_date'] = Carbon::parse($new_task['start_date'])->format('Y-m-d');
-        $new_task['end_date'] = Carbon::parse($new_task['end_date'])->format('Y-m-d');
+        $startDate = Carbon::parse($new_task['start_date']);
+        [$sh, $sm] = explode(':', $new_task['start_time']);
+        $new_task['start_date'] = $startDate->setTime((int)$sh, (int)$sm);
+
+        $endDate = Carbon::parse($new_task['end_date']);
+        [$eh, $em] = explode(':', $new_task['end_time']);
+        $new_task['end_date'] = $endDate->setTime((int)$eh, (int)$em);
         $task->update($new_task);
-        return Redirect::route('leader.tasks.index')->with('message', 'Data Berhasil Di Update');
+        return Redirect::route('leader.tasks.index')->with('success', 'Data Berhasil Di Update');
     }
 
     public function destroyLeader(Task $task)
     {
         $task->delete();
-        return Redirect::route('leader.tasks.index')->with(['message' => 'Data Berhasil Di Hapus']);
+        return Redirect::route('leader.tasks.index')->with(['success' => 'Data Berhasil Di Hapus']);
     }
 
     public function excelLeader()
@@ -174,7 +188,7 @@ class TaskController extends Controller
                 'user_id'    => Auth::user()->id,
                 'title'    => $task->title,
                 'description' => $task->description,
-                'start_date' => Carbon::now()->format('Y-m-d'),
+                'start_date' => Carbon::now(),
                 'status' => StatusTask::ON_PROGRESS->value,
                 'task_id'    => $task->id,
             ]);
@@ -203,9 +217,9 @@ class TaskController extends Controller
             // mencari aktivitas yg terhubung dengan tugas
             $activity = Activity::where('task_id', $task->id)->where('user_id', Auth::user()->id)->firstOrFail();
             // 1. buat activity
-            $activity->update(['status' => StatusTask::ON_PROGRESS->value]);
+            $activity->update(['status' => StatusTask::SUCCESS->value, 'end_date' => Carbon::now(),]);
             // 2. update status task
-            $task->update(['status' => StatusTask::SUCCESS->value]);
+            $task->update(['status' => StatusTask::SUCCESS->value, 'due_date' => Carbon::now(),]);
         });
         return Redirect::route('member.activities.index')->with('message', 'Data Berhasil Diubah');
     }

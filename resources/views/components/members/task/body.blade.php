@@ -56,12 +56,12 @@
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $task->due_date->translatedFormat('d F Y, H:i') ?? 'Tidak tersedia' }}
+                        {{ $task->end_date->translatedFormat('d F Y, H:i') ?? 'Tidak tersedia' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
                     <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $task->end_date->translatedFormat('d F Y, H:i') ?? 'Tidak tersedia' }}
+                        {{ $task->due_date ? $task->due_date->translatedFormat('d F Y, H:i') : 'Belum diselesaikan' }}
                     </div>
                 </td>
                 <td class="px-6 py-3">
@@ -141,7 +141,7 @@
                                     @csrf
                                     <button
                                         class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
-                                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                        <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
                                             viewBox="0 0 640 640">
                                             <path stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                                 stroke-linejoin="round"
@@ -179,12 +179,27 @@
                             <li>
                                 <a href="{{ route('member.tasks.endActivity', $task->id) }}"
                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
-                                    <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                                    <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
                                         <path fill="currentColor"
                                             d="M64 48l112 0 0 88c0 39.8 32.2 72 72 72l88 0 0 240c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16L48 64c0-8.8 7.2-16 16-16zM224 67.9l92.1 92.1-68.1 0c-13.3 0-24-10.7-24-24l0-68.1zM64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-261.5c0-17-6.7-33.3-18.7-45.3L242.7 18.7C230.7 6.7 214.5 0 197.5 0L64 0zm56 256c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0z" />
                                     </svg>
-                                    Kumpulkan
+                                    Tunda
                                 </a>
+                            </li>
+                            <li>
+                                <form action="{{ route('member.tasks.endActivity', $task->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button
+                                        class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
+                                        <svg class="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 384 512" fill="none">
+                                            <path fill="currentColor" stroke-width="2"
+                                                d="M64 48l112 0 0 88c0 39.8 32.2 72 72 72l88 0 0 240c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16L48 64c0-8.8 7.2-16 16-16zM224 67.9l92.1 92.1-68.1 0c-13.3 0-24-10.7-24-24l0-68.1zM64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-261.5c0-17-6.7-33.3-18.7-45.3L242.7 18.7C230.7 6.7 214.5 0 197.5 0L64 0zm56 256c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0zm0 96c-13.3 0-24 10.7-24 24s10.7 24 24 24l144 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-144 0z" />
+                                        </svg>
+                                        Kumpulkan
+                                    </button>
+                                </form>
                             </li>
                             @endif
                         </ul>
@@ -193,7 +208,8 @@
             </tr>
 
             <!-- View modal -->
-            {{-- <div id="showTaskModal-{{ $task->id }}" tabindex="-1" aria-hidden="true"
+            {{--
+            <div id="showTaskModal-{{ $task->id }}" tabindex="-1" aria-hidden="true"
             class="hidden fixed top-0 left-0 z-999999 flex h-screen w-full flex-col items-center justify-between
             overflow-x-hidden bg-white p-6 lg:p-10 dark:bg-gray-900">
             <div class="relative w-full h-full p-0">
@@ -266,7 +282,8 @@
                     </div>
                 </div>
             </div>
-</div> --}}
+</div>
+--}}
 @endforeach
 </tbody>
 </table>
