@@ -68,10 +68,10 @@
                         <?php
                         switch ($task->status) {
                             case App\Enums\StatusTask::SUCCESS:
-                                echo $task->submitted_at->format('d F Y, H:i');
+                                echo $task->due_date->format('d F Y, H:i');
                                 break;
                             case App\Enums\StatusTask::LATE:
-                                echo $task->submitted_at->format('d F Y, H:i');
+                                echo $task->due_date->format('d F Y, H:i');
                                 break;
                             case App\Enums\StatusTask::PENDING:
                                 echo 'Menunggu peninjauan';
