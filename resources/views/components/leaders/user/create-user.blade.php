@@ -9,7 +9,7 @@
                     </label>
                     <input type="text" name="name" id="name" value="{{ old('name') }}"
                         placeholder="Masukan nama anggota baru" autofocus
-                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                        class="@error('name') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                     @error('name')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
@@ -20,8 +20,8 @@
                         Username
                     </label>
                     <input type="text" name="username" id="username" value="{{ old('username') }}"
-                        placeholder="Masukan nama anggota baru"
-                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                        placeholder="Masukan username anggota baru"
+                        class="@error('username') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                     @error('username')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
@@ -32,8 +32,8 @@
                         Email
                     </label>
                     <input type="text" name="email" id="email" value="{{ old('email') }}"
-                        placeholder="Masukan nama anggota baru"
-                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                        placeholder="Masukan email anggota baru"
+                        class="@error('email') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                     @error('email')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
@@ -45,8 +45,8 @@
                     </label>
                     <div x-data="{ showPassword: false }" class="relative">
                         <input :type="showPassword ? 'text' : 'password'" name="password" id="password"
-                            value="{{ old('password') }}" placeholder="Masukan kata sandi"
-                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border border-gray-300 bg-transparent bg-none px-4 py-2.5 pr-11 pl-4 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
+                            value="{{ old('password') }}" placeholder="Masukan kata sandi anggota baru"
+                            class="@error('password') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30"
                             type="password">
                         <span @click="showPassword = !showPassword"
                             class="absolute top-1/2 right-4 z-30 -translate-y-1/2 cursor-pointer">
@@ -73,11 +73,11 @@
 
                 <div class="w-full px-2.5 xl:w-1/2">
                     <label for="contact" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        Nomer Telepon
+                        Kontak
                     </label>
                     <input type="text" name="contact" id="contact" value="{{ old('contact') }}"
-                        placeholder="Masukan nama anggota baru"
-                        class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
+                        placeholder="Masukan kontak anggota baru"
+                        class="@error('contact') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-none px-4 py-2.5 pr-11 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
                     @error('contact')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
@@ -111,6 +111,18 @@
                         </span>
                     </div>
                     @error('division')
+                    <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="w-full px-2.5">
+                    <label for="address" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">
+                        Alamat
+                    </label>
+                    <textarea placeholder="Masukan alamat anggota baru" type="text" rows="8" name="address" id="address"
+                        autocomplete="off"
+                        class="@error('address') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror  dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">{{ old('address') }}</textarea>
+                    @error('address')
                     <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>

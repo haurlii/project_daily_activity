@@ -113,10 +113,11 @@ class ActivityController extends Controller
 
     public function storeMember(StoreActivityRequest $request)
     {
-        $new_activity = $request->validated();
-        $new_activity['user_id'] = Auth::user()->id;
-        $new_activity['start_date'] = Carbon::parse($new_activity['start_date'])->format('Y-m-d');
-        Activity::create($new_activity);
+        $activity = $request->validated();
+        $activity['user_id'] = Auth::user()->id;
+        $activity['started_at'] = Carbon::now();
+        $activity['status'] = StatusTask::ON_PROGRESS->value;
+        Activity::create($activity);
         return Redirect::route('member.activities.index')->with('message', 'Data Berhasil Ditambahkan');
     }
 
@@ -132,15 +133,16 @@ class ActivityController extends Controller
 
     public function updateMember(UpdateActivityRequest $request, Activity $activity)
     {
-        $new_activity = $request->validated();
-        if ($new_activity['description'] === null) {
-            $new_activity['description'] = $activity->description;
+        $updateActivity = $request->validated();
+        // Cek jika description null
+        if ($updateActivity['description'] === null) {
+            $updateActivity['description'] = $activity->description;
         }
-        $new_activity['user_id'] = Auth::user()->id;
-        $new_activity['start_date'] = Carbon::parse($new_activity['start_date'])->format('Y-m-d');
-
-        $activity->update($new_activity);
-
+        if ($activity->user_id !== Auth::user()->id) {
+            $updateActivity['user_id'] = Auth::user()->id;
+        }
+        $updateActivity['started_at'] = Carbon::now();
+        $activity->update($updateActivity);
         return Redirect::route('member.activities.index')->with(['message' => 'Data Berhasil Di Update']);
     }
 

@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::table('tasks', function (Blueprint $table) {
             $table->string('status')->default(StatusTask::NOT_STARTED->value);
-            $table->dateTime('end_date');
         });
     }
 

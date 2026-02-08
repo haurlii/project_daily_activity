@@ -24,19 +24,16 @@ class UpdateActivityRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
-            'start_date' => 'required|date',
+            'description' => 'required|string|max:1000',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'Judul tidak boleh kosong',
+            'title.required' => 'Aktivitas tidak boleh kosong',
             'description.required' => 'Detail aktivitas tidak boleh kosong',
             'description.max' => 'Detail aktivitas terlalu panjang',
-            'start_date.required' => 'Tanggal pengerjaan tidak boleh kosong',
-            'start_date.date' => 'Format tanggal tidak valid',
         ];
     }
 }

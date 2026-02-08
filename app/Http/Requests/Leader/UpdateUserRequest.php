@@ -23,16 +23,18 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'address' => 'nullable|string',
-            'contact' => 'nullable|string|max:13',
+            'name'      => 'required|string',
+            'address'   => 'nullable|string',
+            'contact'   => 'nullable|string|max:13',
+            'division'  => 'required',
         ];
     }
     public function messages(): array
     {
         return [
-            'name.required' => 'Nama tidak boleh kosong',
-            'contact.max' => 'Nomer telepon maksimal 13 karakter',
+            'name.required'     => 'Nama tidak boleh kosong',
+            'contact.max'       => 'Nomer telepon maksimal 13 karakter',
+            'division.required' => 'Divisi harus pilih salah satu',
         ];
     }
 }

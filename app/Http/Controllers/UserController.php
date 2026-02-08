@@ -14,15 +14,11 @@ use App\Http\Requests\Superadmin\StoreUserRequest as SuperAdminStoreUserRequest;
 use App\Http\Requests\Leader\StoreUserRequest as LeaderStoreUserRequest;
 use App\Http\Requests\Superadmin\UpdateUserRequest as SuperAdminUpdateUserRequest;
 use App\Http\Requests\Leader\UpdateUserRequest as LeaderUpdateUserRequest;
+use App\Http\Requests\Member\UpdateProfileRequest as UpdateProfileRequest;
+use App\Http\Requests\Member\UpdatePasswordRequest as UpdatePasswordRequest;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        if (Auth::user()->role == 'SuperAdmin') {
-        } else {
-        }
-    }
 
     public function indexSuperAdmin()
     {
@@ -92,10 +88,10 @@ class UserController extends Controller
 
     public function storeLeader(LeaderStoreUserRequest $request)
     {
-        $new_user = $request->validated();
-        $new_user['division'] = Auth::user()->division;
-        User::create($new_user);
-        return Redirect::route('leader.users.index')->with('message', 'Data Berhasil Ditambahkan');
+        $user = $request->validated();
+        $user['division'] = Auth::user()->division;
+        User::create($user);
+        return Redirect::route('leader.users.index')->with('message', 'Berhasil menambahkan anggota baru');
     }
 
     // public function showLeader() {}
@@ -108,12 +104,12 @@ class UserController extends Controller
 
     public function updateLeader(LeaderUpdateUserRequest $request, User $user)
     {
-        $edit_user = $request->validated();
-        if ($edit_user['address'] === null) {
-            $edit_user['address'] = $user->address;
+        $updateUser = $request->validated();
+        if ($updateUser['address'] === null) {
+            $updateUser['address'] = $user->address;
         }
-        $edit_user['division'] = $user->division;
-        $user->update($edit_user);
+        $updateUser['division'] = $user->division;
+        $user->update($updateUser);
         return Redirect::route('leader.users.index')->with('message', 'Data Berhasil Ditambahkan');
     }
 
@@ -135,6 +131,28 @@ class UserController extends Controller
         $users = User::where(['division' => Auth::user()->division, 'role' => 'Member'])->orderBy('name', 'asc')->get();
         $pdf = Pdf::loadView('leader.pdf-user', ['users' => $users]);
         return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
+    }
+
+    public function showProfileMember()
+    {
+        $user = Auth::user();
+        return view('member.profile-user', ['title' => 'Profile', 'user' => $user]);
+    }
+
+    public function updateProfileMember(UpdateProfileRequest $request)
+    {
+        $user = Auth::user();
+        $updateProfile = $request->validated();
+        $user->update($updateProfile);
+        return Redirect::route('member.users.showProfile')->with('message', 'Profile Berhasil Diubah');
+    }
+
+    public function updatePasswordMember(UpdatePasswordRequest $request)
+    {
+        $user = Auth::user();
+        $changePassword = $request->validated();
+        $user->update($changePassword);
+        return Redirect::route('member.users.showProfile')->with('message', 'Password Berhasil Diubah');
     }
 
     public function search(Request $request)

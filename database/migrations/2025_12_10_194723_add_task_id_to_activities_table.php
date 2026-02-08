@@ -14,9 +14,8 @@ return new class extends Migration
     {
         Schema::table('activities', function (Blueprint $table) {
             $table->foreignId('task_id')->nullable()->constrained('tasks')->nullOnDelete();
-            $table->string('title')->nullable();
-            $table->dateTime('end_date')->nullable();
             $table->string('status')->default(StatusTask::ON_PROGRESS->value);
+            $table->boolean('confirmed')->nullable()->default(false);
         });
     }
 

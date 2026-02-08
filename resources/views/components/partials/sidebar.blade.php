@@ -3,7 +3,13 @@
     <!-- SIDEBAR HEADER -->
     <div :class="sidebarToggle ? 'justify-center' : 'justify-between'"
         class="flex items-center gap-2 pt-8 sidebar-header pb-7">
-        <a href="/">
+        <a href="@if (auth()->user()->role === 'SuperAdmin')
+        {{ route('admin.indexAdmin') }}
+    @elseif (auth()->user()->role === 'Leader')
+        {{ route('leader.indexLeader') }}
+    @else
+        {{ route('member.indexMember') }}
+    @endif">
             <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
                 <img class="dark:hidden" src="{{ asset('./assets/images/logo/logo-blue.svg') }}" alt="DAC Indonesia" />
                 <img class="hidden dark:block" src="{{ asset('./assets/images/logo/logo-light.svg') }}"

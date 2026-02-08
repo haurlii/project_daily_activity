@@ -1,14 +1,14 @@
 {{-- Table --}}
 <div class="overflow-x-auto">
-    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <table class="w-full text-theme-xs text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-theme-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-4 py-4">#</th>
-                <th scope="col" class="px-6 py-3">Nama Anggota</th>
-                <th scope="col" class="px-6 py-3">Email</th>
-                <th scope="col" class="px-6 py-3">Alamat</th>
-                <th scope="col" class="px-6 py-3">Kontak</th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" class="px-4 py-3">Nama Anggota</th>
+                <th scope="col" class="px-4 py-3">Email</th>
+                <th scope="col" class="px-4 py-3">Alamat</th>
+                <th scope="col" class="px-4 py-3">Kontak</th>
+                <th scope="col" class="px-4 py-3">
                     <span class="sr-only">Actions</span>
                 </th>
             </tr>
@@ -20,8 +20,8 @@
                     class="px-4 py-3 font-medium text-gray-900 max-w-lg truncate whitespace-nowrap dark:text-white">
                     {{ $loop->iteration }}
                 </th>
-                <td class="px-6 py-3">
-                    <div class="flex items-center gap-3 mr-3 max-w-2xl">
+                <td class="px-4 py-3">
+                    <div class="flex items-center gap-2 mr-3 max-w-xl">
                         {{-- <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) :
                                     asset('assets/images/user/user-default.png') }}" alt="{{ $user->name }}"
                             class="h-8 w-8 mr-3 rounded-full"> --}}
@@ -30,22 +30,22 @@
                         {{ $user->name }}
                     </div>
                 </td>
-                <td class="px-6 py-3">
-                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                <td class="px-4 py-3">
+                    <div class="flex items-center mr-3 max-w-xl">
                         {{ $user->email ?? 'Tidak tersedia' }}
                     </div>
                 </td>
-                <td class="px-6 py-3">
-                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
-                        {{ $user->address ?? 'Tidak tersedia' }}
+                <td class="px-4 py-3">
+                    <div class="flex items-center mr-3 max-w-xl">
+                        {{ $user->address ? Str::of($user->address)->limit(100) : 'Tidak tersedia' }}
                     </div>
                 </td>
-                <td class="px-6 py-3">
-                    <div class="flex items-center mr-3 whitespace-nowrap max-w-xl">
+                <td class="px-4 py-3">
+                    <div class="flex items-center mr-3 max-w-xl">
                         {{ $user->contact ?? 'Tidak tersedia' }}
                     </div>
                 </td>
-                <td class="px-6 py-3 flex items-center justify-end">
+                <td class="px-4 py-3 flex items-center justify-end">
                     <button id="user-{{ $user->id }}-dropdown-button"
                         data-dropdown-toggle="user-{{ $user->id }}-dropdown"
                         class="inline-flex items-center text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 dark:hover-bg-gray-800 text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"

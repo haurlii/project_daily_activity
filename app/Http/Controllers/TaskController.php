@@ -73,17 +73,17 @@ class TaskController extends Controller
 
     public function storeLeader(StoreTaskRequest $request)
     {
-        $new_task = $request->validated();
-        $new_task['leader_id'] = Auth::user()->id;
-
-        $startDate = Carbon::parse($new_task['start_date']);
-        [$sh, $sm] = explode(':', $new_task['start_time']);
-        $new_task['start_date'] = $startDate->setTime((int)$sh, (int)$sm);
-
-        $endDate = Carbon::parse($new_task['end_date']);
-        [$eh, $em] = explode(':', $new_task['end_time']);
-        $new_task['end_date'] = $endDate->setTime((int)$eh, (int)$em);
-        Task::create($new_task);
+        $task = $request->validated();
+        $task['leader_id'] = Auth::user()->id;
+        // Set start_date
+        $startDateTime = Carbon::parse($task['start_date']);
+        [$sh, $sm] = explode(':', $task['start_time']);
+        $task['start_date'] = $startDateTime->setTime((int)$sh, (int)$sm);
+        // Set end_date
+        $endDateTime = Carbon::parse($task['end_date']);
+        [$eh, $em] = explode(':', $task['end_time']);
+        $task['end_date'] = $endDateTime->setTime((int)$eh, (int)$em);
+        Task::create($task);
         return Redirect::route('leader.tasks.index')->with('message', 'Data Berhasil Ditambahkan');
     }
 
@@ -95,33 +95,34 @@ class TaskController extends Controller
     public function editLeader(Task $task)
     {
         $member = User::where(['division' => Auth::user()->division, 'role' => 'Member'])->orderBy('name', 'asc')->get();
-
+        // Cek apakah tugas milik divisi yang sama
         if ($task->memberTask->division !== Auth::user()->division) {
             return Redirect::route('leader.tasks.index')->with('error', 'Tidak dapat mengedit tugas diluar divisi Anda.');
         }
-
+        // Cek apakah tugas sudah selesai, sedang pengecekan, sedang dikerjakan, sedang ditunda
         if ($task->status === StatusTask::SUCCESS->value || $task->status === StatusTask::CHECKED->value || $task->status === StatusTask::ON_PROGRESS->value || $task->status === StatusTask::PENDING->value) {
             return Redirect::route('leader.tasks.index')->with('error', 'Tugas yang sudah tidak dapat diedit.');
         }
-
         return view('leader.edit-task', ['title' => 'Edit Tugas', 'task' => $task, 'members' => $member]);
     }
 
     public function updateLeader(UpdateTaskRequest $request, Task $task)
     {
-        $new_task = $request->validated();
-        if ($new_task['description'] === null) {
-            $new_task['description'] = $task->description;
+        $updateTask = $request->validated();
+        // Cek apakah deskripsi kosong
+        if ($updateTask['description'] === null) {
+            $updateTask['description'] = $task->description;
         }
-        $new_task['leader_id'] = Auth::user()->id;
-        $startDate = Carbon::parse($new_task['start_date']);
-        [$sh, $sm] = explode(':', $new_task['start_time']);
-        $new_task['start_date'] = $startDate->setTime((int)$sh, (int)$sm);
-
-        $endDate = Carbon::parse($new_task['end_date']);
-        [$eh, $em] = explode(':', $new_task['end_time']);
-        $new_task['end_date'] = $endDate->setTime((int)$eh, (int)$em);
-        $task->update($new_task);
+        $updateTask['leader_id'] = Auth::user()->id;
+        // Set start_date
+        $startDateTime = Carbon::parse($updateTask['start_date']);
+        [$sh, $sm] = explode(':', $updateTask['start_time']);
+        $updateTask['start_date'] = $startDateTime->setTime((int)$sh, (int)$sm);
+        // Set end_date
+        $endDateTime = Carbon::parse($updateTask['end_date']);
+        [$eh, $em] = explode(':', $updateTask['end_time']);
+        $updateTask['end_date'] = $endDateTime->setTime((int)$eh, (int)$em);
+        $task->update($updateTask);
         return Redirect::route('leader.tasks.index')->with('success', 'Data Berhasil Di Update');
     }
 
@@ -185,12 +186,12 @@ class TaskController extends Controller
         DB::transaction(function () use ($task) {
             // 1. member buat activity
             Activity::create([
-                'user_id'    => Auth::user()->id,
-                'title'    => $task->title,
-                'description' => $task->description,
-                'start_date' => Carbon::now(),
-                'status' => StatusTask::ON_PROGRESS->value,
-                'task_id'    => $task->id,
+                'task_id'       => $task->id,
+                'user_id'       => Auth::user()->id,
+                'title'         => $task->title,
+                'description'   => $task->description,
+                'started_at'    => Carbon::now(),
+                'status'        => StatusTask::ON_PROGRESS->value,
             ]);
             // 2. update status task
             $task->update(['status' => StatusTask::ON_PROGRESS->value]);

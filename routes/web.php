@@ -153,6 +153,12 @@ Route::middleware('auth')->group(function () {
             Route::patch('/activities/{activity:id}/continue', 'continueActivity')->name('member.activities.continueActivity');
             Route::patch('/activities/{activity:id}/end', 'endActivity')->name('member.activities.endActivity');
         });
+
+        Route::controller(UserController::class)->group(function () {
+            Route::get('/profiles', 'showProfileMember')->name('member.users.showProfile');
+            Route::patch('/profiles', 'updateProfileMember')->name('member.users.updateProfile');
+            Route::patch('/change-password', 'updatePasswordMember')->name('member.users.changePassword');
+        });
     });
 
     Route::get('/', function () {

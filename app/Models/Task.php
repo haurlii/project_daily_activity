@@ -15,8 +15,9 @@ class Task extends Model
         'title',
         'description',
         'start_date',
-        'due_date',
         'end_date',
+        'started_at',
+        'completed_at',
         'status',
     ];
 
@@ -24,8 +25,9 @@ class Task extends Model
     {
         return [
             'start_date' => 'datetime',
-            'due_date' => 'datetime',
             'end_date' => 'datetime',
+            'started_at' => 'datetime',
+            'completed_at' => 'datetime',
             'status' => StatusTask::class,
         ];
     }

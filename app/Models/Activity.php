@@ -11,19 +11,21 @@ class Activity extends Model
     protected $fillable = [
         'task_id',
         'user_id',
-        'start_date',
-        'end_date',
         'title',
         'description',
+        'started_at',
+        'completed_at',
         'status',
+        'confirmed',
     ];
 
     protected function casts(): array
     {
         return [
-            'start_date' => 'datetime',
-            'end_date' => 'datetime',
+            'started_at' => 'datetime',
+            'completed_at' => 'datetime',
             'status' => StatusTask::class,
+            'confirmed' => 'boolean',
         ];
     }
 

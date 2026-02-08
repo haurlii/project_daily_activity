@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\Leader;
+namespace App\Http\Requests\Member;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class UpdateProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return Auth::user()->role === "Leader";
+        return Auth::user()->role === "Member";
     }
 
     /**
@@ -24,15 +24,13 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name'      => 'required|string',
-            'username'  => 'required|string|unique:users,username',
-            'email'     => 'required|email:dns|unique:users,email',
+            'username'  => 'required|string|unique:users,username,' . Auth::user()->id,
+            'email'     => 'required|email:dns|unique:users,email,' . Auth::user()->id,
             'address'   => 'nullable|string',
             'contact'   => 'nullable|string|max:13',
             'division'  => 'required',
-            'password'  => 'required|alpha_num:ascii|min:8',
         ];
     }
-
     public function messages(): array
     {
         return [
@@ -43,8 +41,6 @@ class StoreUserRequest extends FormRequest
             'email.unique'      => 'Email sudah ada',
             'contact.max'       => 'Nomer telepon maksimal 13 karakter',
             'division.required' => 'Divisi harus pilih salah satu',
-            'password.required' => 'Kata sandi tidak boleh kosong',
-            'password.min'      => 'Kata sandi minimal 8 karakter',
         ];
     }
 }
