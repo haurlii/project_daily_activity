@@ -20,34 +20,16 @@
     </div>
 
     @push('scripts')
-    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js">
-    </script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js">
-    </script>
-    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
-    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
-
-    <script>
-        FilePond.registerPlugin(FilePondPluginImagePreview);
-        FilePond.registerPlugin(FilePondPluginFileValidateType);
-        FilePond.registerPlugin(FilePondPluginFileValidateSize);
-        FilePond.registerPlugin(FilePondPluginImageTransform);
-        FilePond.registerPlugin(FilePondPluginImageResize);
-
-        
-
-        document.getElementById('contact').addEventListener('input', function (e) {
-            let val = e.target.value.replace(/\D/g, ''); // hanya angka
-            if (val.startsWith('62')) {
-                e.target.value = '+' + val;
-            } else if (val.startsWith('0')) {
-                e.target.value = '+62' + val.substring(1);
-            } else {
-                e.target.value = '+62' + val;
-            }
-        });
+    document.getElementById('contact').addEventListener('input', function (e) {
+    let val = e.target.value.replace(/\D/g, ''); // hanya angka
+    if (val.startsWith('62')) {
+    e.target.value = '+' + val;
+    } else if (val.startsWith('0')) {
+    e.target.value = '+62' + val.substring(1);
+    } else {
+    e.target.value = '+62' + val;
+    }
+    });
     </script>
     @endpush
 </x-layouts.app>
