@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\DashboardController;
 
@@ -53,6 +54,10 @@ Route::middleware('auth')->group(function () {
         Route::controller(UserController::class)->group(function () {
             // index
             Route::get('/users', 'indexLeader')->name('leader.users.index');
+
+            Route::get('/profiles', 'showProfileLeader')->name('leader.users.showProfile');
+            Route::patch('/profiles', 'updateProfileLeader')->name('leader.users.updateProfile');
+            Route::patch('/change-password', 'updatePasswordLeader')->name('leader.users.changePassword');
 
             // create & store
             Route::get('/users/create', 'createLeader')->name('leader.users.create');
@@ -159,6 +164,18 @@ Route::middleware('auth')->group(function () {
             Route::patch('/profiles', 'updateProfileMember')->name('member.users.updateProfile');
             Route::patch('/change-password', 'updatePasswordMember')->name('member.users.changePassword');
         });
+    });
+
+    // Upload avatar, cover, dan logo
+    Route::controller(UploadController::class)->group(function () {
+        Route::post('/admin/profile/upload-avatar', 'uploadAvatar')->name('admin.uploadAvatar');
+        Route::delete('/admin/profile/delete-avatar', 'deleteAvatar')->name('admin.deleteAvatar');
+
+        Route::post('/leader/profile/upload-avatar', 'uploadAvatar')->name('leader.uploadAvatar');
+        Route::delete('/leader/profile/delete-avatar', 'deleteAvatar')->name('leader.deleteAvatar');
+
+        Route::post('/member/profile/upload-avatar', 'uploadAvatar')->name('member.uploadAvatar');
+        Route::delete('/member/profile/delete-avatar', 'deleteAvatar')->name('member.deleteAvatar');
     });
 
     Route::get('/', function () {

@@ -4,18 +4,22 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Str;
 use App\Exports\UsersExport;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Redirect;
-use App\Http\Requests\Superadmin\StoreUserRequest as SuperAdminStoreUserRequest;
 use App\Http\Requests\Leader\StoreUserRequest as LeaderStoreUserRequest;
-use App\Http\Requests\Superadmin\UpdateUserRequest as SuperAdminUpdateUserRequest;
 use App\Http\Requests\Leader\UpdateUserRequest as LeaderUpdateUserRequest;
-use App\Http\Requests\Member\UpdateProfileRequest as UpdateProfileRequest;
-use App\Http\Requests\Member\UpdatePasswordRequest as UpdatePasswordRequest;
+use App\Http\Requests\Leader\UpdateProfileRequest as LeaderUpdateProfileRequest;
+use App\Http\Requests\Member\UpdateProfileRequest as MemberUpdateProfileRequest;
+use App\Http\Requests\Superadmin\StoreUserRequest as SuperAdminStoreUserRequest;
+use App\Http\Requests\Leader\UpdatePasswordRequest as LeaderUpdatePasswordRequest;
+use App\Http\Requests\Member\UpdatePasswordRequest as MemberUpdatePasswordRequest;
+use App\Http\Requests\Superadmin\UpdateUserRequest as SuperAdminUpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -133,21 +137,55 @@ class UserController extends Controller
         return $pdf->setPaper('A4', 'landscape')->download($filename . '.pdf');
     }
 
+    public function showProfileLeader()
+    {
+        $user = Auth::user();
+        return view('leader.profile-user', ['title' => 'Profile', 'user' => $user]);
+    }
+
+    public function updateProfileLeader(LeaderUpdateProfileRequest $request)
+    {
+        $user = Auth::user();
+        $updateProfile = $request->validated();
+        if ($request->avatar) {
+            $image = Str::after($request->avatar, 'tmp/');
+            $path = "img/avatar/leader/$image";
+            Storage::disk('public')->move($request->avatar, $path);
+            $updateProfile['avatar'] = $path;
+        }
+        $user->update($updateProfile);
+        return Redirect::route('leader.users.showProfile')->with('message', 'Profile Berhasil Diubah');
+    }
+
+    public function updatePasswordLeader(LeaderUpdatePasswordRequest $request)
+    {
+        $user = Auth::user();
+        $changePassword = $request->validated();
+        $user->update($changePassword);
+        return Redirect::route('leader.users.showProfile')->with('message', 'Password Berhasil Diubah');
+    }
+
     public function showProfileMember()
     {
         $user = Auth::user();
         return view('member.profile-user', ['title' => 'Profile', 'user' => $user]);
     }
 
-    public function updateProfileMember(UpdateProfileRequest $request)
+    public function updateProfileMember(MemberUpdateProfileRequest $request)
     {
         $user = Auth::user();
         $updateProfile = $request->validated();
+        if ($request->avatar) {
+            $image = Str::after($request->avatar, 'tmp/');
+            $path = "img/avatar/member/$image";
+            Storage::disk('public')->move($request->avatar, $path);
+            $updateProfile['avatar'] = $path;
+        }
         $user->update($updateProfile);
         return Redirect::route('member.users.showProfile')->with('message', 'Profile Berhasil Diubah');
     }
 
-    public function updatePasswordMember(UpdatePasswordRequest $request)
+    public function updatePasswordMember(MemberUpdatePasswordRequest $request)
     {
         $user = Auth::user();
         $changePassword = $request->validated();

@@ -9,7 +9,7 @@
         <div class="flex flex-col items-center justify-between">
             <div class="flex flex-col items-center w-full gap-6 ">
                 <div class="w-32 h-w-32 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-                    <img src="{{ ($user->avatar) ? Storage::url($user->avatar) : asset('assets/images/user/user-default.png') }}"
+                    <img src="{{ $user->avatar ? Storage::url($user->avatar) : asset('assets/images/user/user-default.png') }}"
                         alt="{{ $user->name }}" />
                 </div>
                 <h4 class="mb-2 text-2xl font-semibold text-center text-gray-800 dark:text-white/90 ">
@@ -28,7 +28,7 @@
 <div class="col-span-1 sm:col-span-2">
     <div class="mb-6 rounded-2xl border border-gray-200 dark:border-gray-800">
         <div class="space-y-6 border-t border-gray-200 p-5 sm:p-6 dark:border-gray-800">
-            <form method="POST" action="{{ route('member.users.updateProfile') }} " enctype="multipart/form-data">
+            <form method="POST" action="{{ route('leader.users.updateProfile') }} " enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <div class="-mx-2.5 flex flex-wrap gap-y-5">
@@ -170,7 +170,7 @@
 
     <div class="rounded-2xl border border-gray-200 dark:border-gray-800">
         <div class="space-y-6 border-t border-gray-200 p-5 sm:p-6 dark:border-gray-800">
-            <form method="POST" action="{{ route('member.users.changePassword') }}">
+            <form method="POST" action="{{ route('leader.users.changePassword') }}">
                 @csrf
                 @method('PATCH')
                 <div class=" -mx-2.5 flex flex-wrap gap-y-5">

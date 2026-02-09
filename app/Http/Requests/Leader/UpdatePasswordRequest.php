@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Member;
+namespace App\Http\Requests\Leader;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
@@ -12,7 +12,7 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->role === "Member";
+        return Auth::user()->role === "Leader";
     }
 
     /**

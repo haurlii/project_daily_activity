@@ -12,7 +12,7 @@
 
         <div class="rounded-2xl border border-gray-200 bg-white p-5 dark:border-gray-800 dark:bg-white/[0.03] lg:p-6">
             <div class="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-3">
-                <x-members.user.form-profile :user="$user" />
+                <x-leaders.user.form-profile :user="$user" />
                 {{--
                 <x-members.user.form-password /> --}}
             </div>
@@ -46,7 +46,7 @@
             imageResizeUpscale: false,
             server: {
                 process: {
-                    url: '{{ route('member.uploadAvatar') }}',
+                    url: '{{ route('leader.uploadAvatar') }}',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
@@ -57,7 +57,7 @@
                     }
                 },
                 revert: {
-                    url: '{{ route('member.deleteAvatar') }}',
+                    url: '{{ route('leader.deleteAvatar') }}',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     }

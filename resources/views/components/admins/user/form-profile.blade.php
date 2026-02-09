@@ -9,8 +9,8 @@
         <div class="flex flex-col items-center justify-between">
             <div class="flex flex-col items-center w-full gap-6 ">
                 <div class="w-32 h-w-32 overflow-hidden border border-gray-200 rounded-full dark:border-gray-800">
-                    <img src="{{ ($user->avatar) ? Storage::url($user->avatar) : asset('assets/images/user/user-default.png') }}"
-                        alt="{{ $user->name }}" />
+                    <img src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('assets/images/user/user-default.png') }}"
+                        alt="{{ Auth::user()->firstname . ' ' . Auth::user()->lastname }}" />
                 </div>
                 <h4 class="mb-2 text-2xl font-semibold text-center text-gray-800 dark:text-white/90 ">
                     {{ $user->name }}
@@ -81,14 +81,10 @@
                             class="mb-1.5 block text-theme-xs font-medium text-gray-700 dark:text-gray-400">
                             No. Handphone
                         </label>
-                        <div class="relative">
-                            <span
-                                class="absolute top-1/2 left-0 -translate-y-1/2 border-r border-gray-200 px-3.5 py-3 text-gray-700 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-800 text-theme-xs">+62
-                            </span>
-                            <input type="text" id="contact" name="contact" placeholder="Masukkan no. handphone"
-                                value="{{ old('contact') ?? (Str::startsWith($user->contact, '(+62)') || Str::startsWith($user->contact, '+62') ? $user->contact : '+62' . ltrim($user->contact, '0')) }}"
-                                class="@error('contact') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 pl-[62px] text-theme-xs text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30">
-                        </div>
+                        <input type="text" id="contact" name="contact" placeholder="Masukkan no. handphone"
+                            value="{{ old('contact') ?? (Str::startsWith($user->contact, '+62') ? $user->contact : '+62' . ltrim($user->contact, '0')) }}"
+                            autocomplete="off"
+                            class="@error('contact') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-theme-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30" />
                         @error('contact')
                         <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
@@ -137,22 +133,22 @@
                         @enderror
                     </div>
 
-                    <div class="w-full px-2.5">
-                        <label for="avatar"
-                            class=" mb-1.5 block text-theme-xs font-medium text-gray-700 dark:text-gray-400">
+                    {{-- <div class="w-full px-2.5">
+                        <label for="avatar-update"
+                            class=" mb-1.5 block text-theme-sm font-medium text-gray-700 dark:text-gray-400">
                             Upload File
                         </label>
-                        <input type="hidden" name="avatar_tmp" id="avatar_tmp">
                         <input
-                            class="@error('avatar') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror block w-full text-theme-sm text-gray-800 border border-gray-300 rounded-lg cursor-pointer dark:text-white/90 focus:outline-none dark:bg-gray-900 dark:border-gray-700 dark:placeholder-white/30 focus:file:ring-brand-300 transition-colors file:mr-5 file:border-collapse file:cursor-pointer file:rounded-l-lg file:border-0 file:border-r file:border-solid file:border-gray-200 file:bg-gray-50 file:text-sm file:text-gray-400  dark:file:border-gray-700 dark:file:bg-gray-900 dark:file:text-white/30"
-                            aria-describedby="user_avatar_help" id="avatar" name="avatar" type="file" accept="image/*">
+                            class="@error('avatar') bg-red-50 dark:bg-red-900/20 border-red-500 text-red-600 placeholder-red-50 focus:ring-red-500/10 focus:border-red-300 dark:text-red-500 dark:placeholder-red-500 dark:border-red-800 dark:focus:ring-red-50/10 dark:focus:border-red-800 @enderror block w-full text-theme-sm text-gray-800 border border-gray-300 rounded-lg cursor-pointer dark:text-white/90 focus:outline-none dark:bg-gray-900 dark:border-gray-700 dark:placeholder-white/30 focus:file:ring-brand-300 transition-colors file:mr-5 file:border-collapse file:cursor-pointer file:rounded-l-lg file:border-0 file:border-r file:border-solid file:border-gray-200 file:bg-gray-50 file:text-xs file:text-gray-400  dark:file:border-gray-700 dark:file:bg-gray-900 dark:file:text-white/30"
+                            aria-describedby="user_avatar_help" id="avatar-update" name="avatar" type="file"
+                            accept="image/*">
                         <div class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="user_avatar_help">.png,
                             .jpg,
                             .jpeg</div>
                         @error('avatar')
                         <p class="mt-2 text-xs text-red-600 dark:text-red-500">{{ $message }}</p>
                         @enderror
-                    </div>
+                    </div> --}}
 
                     <div class="w-full px-2.5">
                         <div class="mt-4 flex items-center justify-end gap-3">

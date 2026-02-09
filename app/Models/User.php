@@ -27,6 +27,7 @@ class User extends Authenticatable
         'contact',
         'role',
         'division',
+        'avatar',
     ];
 
     /**
